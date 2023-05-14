@@ -1,0 +1,33 @@
+{
+  "name": "clinic4legs",
+  "version": "1.0.0",
+  "description": "DataBase for 4legs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Possandglor/clinic4legs.git"
+  },
+  "author": "Simonenko Vladislav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Possandglor/clinic4legs/issues"
+  },
+  "homepage": "https://github.com/Possandglor/clinic4legs#readme",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "electron": "24.3.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  }
+}
