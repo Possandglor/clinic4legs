@@ -3,21 +3,43 @@
 
 <head>
   <link rel="stylesheet" href="src/style.css">
+
   <script src="src/tabs.js">
+  </script>
+  <script src="src/main.js">
+  </script>
+  <script src="src/server.js">
+  </script>
+  <script src="src/qr.js">
   </script>
 </head>
 
-<body>
+<body onload="startServer()">
   <div class="sidenav">
-    <a class="">Расписание</a>
-    <a class="schedule selectedTab">Клиенты</a>
+    <a class="schedule selectedTab" onclick="selectTab(this)">Расписание</a>
+    <a class="clients" onclick="selectTab(this)">Клиенты</a>
+    <img src="src/logo.jpg" width="200px" />
+    <img id="qr" src="" width="200px" />
+    <label id="myip"></label>
   </div>
   <div class="main selectedMain" id="schedule">
-    hello
+    <input id="date" type="date" onchange="changeData(this.value)" />
+    <div id="schedule-chart"></div>
+    <!-- <div id="schedule-container">
+      
+    </div>
+    
+    <button onclick="showDaySchedule()">Показать расписание на день</button>
+    <button onclick="showWeekSchedule()">Показать расписание на неделю</button>
+    <button onclick="showMonthSchedule()">Показать расписание на месяц</button> -->
   </div>
   <div class="main unselectedMain" id="clients">
-    hello
+    Или не привет.
   </div>
+
+  <script src="src/calendar.js">
+  </script>
 </body>
+
 
 </html>

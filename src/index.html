@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+  <div class="sidenav">
+    <a class="schedule selectedTab" onclick="selectTab(this)">Расписание</a>
+    <a class="clients" onclick="selectTab(this)">Клиенты</a>
+    <img src="/logo.jpg" width="200px" />
+  </div>
+  <div class="main selectedMain" id="schedule">
+    <input type="date" onchange="changeData(this.value)"/>
+    <div id="schedule-chart"></div>
+
+  </div>
+  <div class="main unselectedMain" id="clients">
+    Или не привет.
+  </div>
+  <script src="/tabs.js"></script>
+  <script src="/main.js"></script>
+  <script src="/calendar.js">
+  </script>
+</body>
+
+</html>
