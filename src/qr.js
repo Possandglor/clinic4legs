@@ -1,7 +1,7 @@
 const qrcode = require('qrcode');
 const os = require('os');
 const interfaces = os.networkInterfaces();
-let myip = ""
+var myip = ""
 // Перебираем все интерфейсы
 for (const name of Object.keys(interfaces)) {
     // Перебираем все адреса для каждого интерфейса
@@ -28,5 +28,4 @@ qrcode.toDataURL(myip+":3000", function (err, data) {
 //     }
 // }, function (err) {
 //     if (err) throw err;
-//     console.log('QR code saved!');
 // });

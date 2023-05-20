@@ -1,0 +1,11 @@
+{
+    "url": "https://script.google.com/macros/s/AKfycbzZwiRLvNxqsv4-VwCfXlYXPCMBHgOhewFaopCNSCbl_7y4ZGe5Kw_mB371BnaHmmKk/exec",
+    "smtpServer": "smtp-mail.outlook.com",
+    "smtpPort": 587,
+    "smtpUsername": "Possandglor@live.ru",
+    "smtpPassword": "TARGETBOL90a!",
+    "from": "Possandglor@live.ru",
+    "to": "possandglor@gmail.com",
+    "subject": "Вложение файла",
+    "filePath": "db.json"
+}

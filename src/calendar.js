@@ -73,7 +73,6 @@ function formatTime(hour) {
 
 function calculateEventTopPosition(startHour, startMinute) {
     const totalMinutes = (startHour - 7) * 60 + startMinute;
-    console.log(totalMinutes)
     const minutesPerSlot = 60;
     return Math.floor(totalMinutes / minutesPerSlot * 40);
 }
@@ -90,10 +89,8 @@ function calculateEventHeight(startHour, startMinute, endHour, endMinute) {
 let allEventsFromCalendar = []
 
 function getEvents() {
-    postData("http://192.168.0.113:3000/cal", { event: "get", age: 25 })
+    postData("http://"+myip+":3000/cal", { event: "get", age: 25 })
         .then((data) => {
-            console.log(typeof data); // JSON data parsed by `response.json()` call
-            console.log(data); // JSON data parsed by `response.json()` call
             allEventsFromCalendar = JSON.parse(data).array
             changeData(new Date())
         });
@@ -107,19 +104,16 @@ function formatDate(date) {
     return `${year}-${month}-${day}`
 }
 function formatedTime(date) {
-    console.log(date)
     const hour = String(date.getHours()).padStart(2, '0');
     const minute = String(date.getMinutes()).padStart(2, '0');
     return `${hour}:${minute}`
 }
 function changeData(date) {
-    console.log(allEventsFromCalendar)
     let eventsInSelectedDay = allEventsFromCalendar.filter((elem) => {
         return formatDate(new Date(elem.split("|")[1])) == formatDate(new Date(date))
     })
     let eventsData = []
     for (let a of eventsInSelectedDay) {
-        console.log(a)
         eventsData.push({
             startTime: formatedTime(new Date(a.split("|")[1])),
             endTime: formatedTime(new Date(a.split("|")[2])),
@@ -128,8 +122,16 @@ function changeData(date) {
     }
 
     createScheduleChart(eventsData);
-    // console.log(eventsInSelectedDay)
-    // console.log(date)
 }
 
 
+function changeDateInput(type) {
+    let i = 0;
+    if (type == "prev") {
+        i = -1
+    }
+    else { i = 1 }
+    let newDate = new Date().setDate(new Date(document.getElementById("date").value).getDate() + i)
+    document.getElementById("date").value = formatDate(new Date(newDate))
+    changeData(new Date(document.getElementById("date").value))
+}

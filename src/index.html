@@ -9,15 +9,168 @@
   <div class="sidenav">
     <a class="schedule selectedTab" onclick="selectTab(this)">Расписание</a>
     <a class="clients" onclick="selectTab(this)">Клиенты</a>
-    <img src="/logo.jpg" width="200px" />
+    <img src="/logo.png" width="200px" />
   </div>
   <div class="main selectedMain" id="schedule">
-    <input type="date" onchange="changeData(this.value)"/>
+    <button onclick="changeDateInput('prev')">
+      <= </button>
+
+    <input  id="date" type="date" onchange="changeData(this.value)"/>
+    
+    <button onclick="changeDateInput('next')">=></button>
+
     <div id="schedule-chart"></div>
 
   </div>
   <div class="main unselectedMain" id="clients">
-    Или не привет.
+    <div class="container">
+      <div class="client-search">
+        <table>
+          <tr>
+            <td>
+              <label>ФИО клиента:</label>
+            </td>
+            <td>
+              <input id="searchFIO" onkeyup="searchClient()" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Номер телефона клиента:</label>
+            </td>
+            <td>
+              <input id="searchPhoneNumber" onkeyup="searchClient()" />
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Кличка питомца:
+            </label>
+            </td>
+            <td>
+              <input id="searchPetName" onkeyup="searchClient()" />
+            </td>
+          </tr>
+          <br>
+        </table>
+        <select id="foundClients" size="20" style="width: 100%;">
+        </select>
+      </div>
+      <div class="client-profile">
+
+        <table>
+          <thead>
+            <td>
+
+            </td>
+            <td style="width:100%">
+
+            </td>
+          </thead>
+          <tr>
+            <td>
+              <label>ФИО клиента:</label>
+            </td>
+            <td style="width:100%">
+              <input id="profileFIO" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Номер телефона клиента:</label>
+            </td>
+            <td style="width:100%">
+              <input id="profilePhoneNumber" />
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Кличка питомца:
+            </label>
+            </td>
+            <td style="width:100%">
+              <input id="profilePetName" />
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Пол питомца:
+            </label>
+            </td>
+            <td style="width:100%">
+              <input id="profilePetSex" />
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Вид питомца:
+            </label>
+            </td>
+            <td >
+              <select id="profileType" size="2">
+                <option>Собака</option>
+                <option>Кот</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Порода питомца:
+            </label>
+            </td>
+            <td>
+              <input id="profilePetSex" />
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Возраст:
+            </label>
+            </td>
+            <td style="width:100%" style="width:100%">
+              <input id="profilePetBirthDate" />
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Комментарий:
+            </label>
+            </td>
+            <td style="width:100%">
+              <textarea id="profileComment" ></textarea>
+            </td>
+          </tr>
+          <tr>
+            <label>
+              <td>
+                Анализы:
+            </label>
+            </td>
+            <td style="width:100%">
+              <select id="profileAnalyses" size="20" style="width: 100%;">
+              </select>
+            </td>
+          </tr>
+          <br>
+        </table>
+      </div>
+    </div>
+    <button onclick="openPopup()">Открыть окно</button>
+  </div>
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <input id="id1" type="date"/>
+      <input id="id1" type="time"/>
+
+    </div>
   </div>
   <script src="/tabs.js"></script>
   <script src="/main.js"></script>

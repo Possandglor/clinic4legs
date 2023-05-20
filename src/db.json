@@ -1,0 +1,76 @@
+{
+    "ClientList": [
+        {
+            "FIO": "Симоненко В.",
+            "phoneNumber": "380500559015",
+            "petName": "Буся",
+            "petSex": "Ж",
+            "petBreed": "Падлюка",
+            "petBirthDate": "2018",
+            "comment": "Скотыняка",
+            "analyses": [
+                "666",
+                "789"
+            ]
+        },
+        {
+            "FIO": "Кусакина",
+            "phoneNumber": "0664883209",
+            "petName": "Марго",
+            "petSex": "Ж",
+            "petBreed": "Жопа",
+            "petBirthDate": "2019",
+            "comment": "Comment1",
+            "analyses": [
+                "666",
+                "789"
+            ]
+        },
+        {
+            "FIO": "Чмоня Чмонный",
+            "phoneNumber": "12345",
+            "petName": "Гавнюк",
+            "petSex": "М",
+            "petBreed": "зараза",
+            "petBirthDate": "20 мартобря",
+            "comment": "щфшащва",
+            "analyses": null
+        },
+        {
+            "FIO": "ФИО",
+            "phoneNumber": "380500559015",
+            "petName": "Новый питомец",
+            "petSex": "трвпаопвалсопцвулоацл",
+            "petBreed": "уоцлпалоцп",
+            "petBirthDate": "уцгпаоцупао",
+            "comment": "ловцупалуцгпа",
+            "analyses": null
+        }
+    ],
+    "VisitList": [
+        {
+            "date": "2023-05-13 12:00",
+            "phoneNumber": "12344444",
+            "vid": null,
+            "anamnez": null,
+            "appointment": "Не пришел (петух)",
+            "status": null
+        },
+        {
+            "date": "2023-05-13 14:00",
+            "phoneNumber": "12345",
+            "vid": "Укол",
+            "anamnez": "болит ножка",
+            "appointment": "",
+            "status": "отменен (петух)"
+        },
+        {
+            "date": "2023-05-14 12:00",
+            "phoneNumber": "380500559015",
+            "vid": "укол",
+            "anamnez": "фралфрадш",
+            "appointment": "Амоксицилин 0.5",
+            "status": ""
+        }
+    ]
+}
