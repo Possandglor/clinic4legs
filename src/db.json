@@ -9,8 +9,6 @@
             "petBirthDate": "2018",
             "comment": "Скотыняка",
             "analyses": [
-                "666",
-                "789"
             ]
         },
         {
@@ -22,8 +20,16 @@
             "petBirthDate": "2019",
             "comment": "Comment1",
             "analyses": [
-                "666",
-                "789"
+                {
+                    "date":"2023-05-22",
+                    "text":"text2",
+                    "file":"logo.png"
+                },
+                {
+                    "date":"2023-05-21",
+                    "text":"text1",
+                    "file":"logo.png"
+                }
             ]
         },
         {
@@ -34,17 +40,7 @@
             "petBreed": "зараза",
             "petBirthDate": "20 мартобря",
             "comment": "щфшащва",
-            "analyses": null
-        },
-        {
-            "FIO": "ФИО",
-            "phoneNumber": "380500559015",
-            "petName": "Новый питомец",
-            "petSex": "трвпаопвалсопцвулоацл",
-            "petBreed": "уоцлпалоцп",
-            "petBirthDate": "уцгпаоцупао",
-            "comment": "ловцупалуцгпа",
-            "analyses": null
+            "analyses": []
         }
     ],
     "VisitList": [

@@ -4,9 +4,9 @@
 <head>
   <link rel="stylesheet" href="src/style.css">
 
-  <script src="src/server.js">
-  </script>
   <script src="src/qr.js">
+  </script>
+  <script src="src/server.js">
   </script>
   <script src="src/tabs.js">
   </script>
@@ -61,7 +61,7 @@
           </tr>
           <br>
         </table>
-        <select id="foundClients" size="20" style="width: 100%;">
+        <select id="foundClients" size="20" style="width: 100%;" onchange="loadClientProfile()">
         </select>
       </div>
       <div class="client-profile">
@@ -117,7 +117,7 @@
                 Вид питомца:
             </label>
             </td>
-            <td >
+            <td>
               <select id="profileType" size="2">
                 <option>Собака</option>
                 <option>Кот</option>
@@ -131,7 +131,7 @@
             </label>
             </td>
             <td>
-              <input id="profilePetSex" />
+              <input id="profilePetBreed" />
             </td>
           </tr>
           <tr>
@@ -151,7 +151,7 @@
             </label>
             </td>
             <td style="width:100%">
-              <textarea id="profileComment" ></textarea>
+              <textarea id="profileComment"></textarea>
             </td>
           </tr>
           <tr>
@@ -161,7 +161,8 @@
             </label>
             </td>
             <td style="width:100%">
-              <select id="profileAnalyses" size="20" style="width: 100%;">
+              <select id="profileAnalyses" size="20" style="width: 100%;"
+                ondblclick="openPopupAnalyse()">
               </select>
             </td>
           </tr>
@@ -169,15 +170,29 @@
         </table>
       </div>
     </div>
-    <button onclick="openPopup()">Открыть окно</button>
+    <button onclick="openPopup(document.getElementById('popup'))">Открыть окно</button>
   </div>
   <div id="popup" class="popup">
     <div class="popup-content">
-      <span class="close" onclick="closePopup()">&times;</span>
+      <span class="close" onclick="closePopup(document.getElementById('popup'))">&times;</span>
       <h2>Заголовок окна</h2>
       <p>Содержимое всплывающего окна.</p>
     </div>
   </div>
+
+
+  <div id="popupAnalyse" class="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopupAnalyse()">&times;</span>
+      <br>
+      <input id="dateAnalyse" type="date" />
+      <br>
+      <textarea id="textAnalyse"></textarea>
+      <br>
+      <a id="fileAnalyse" href=""></a>
+    </div>
+  </div>
+
   <script src="src/calendar.js">
   </script>
 </body>

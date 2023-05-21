@@ -1,27 +1,5 @@
-// Пример данных о расписании (можно заменить на ваши реальные данные)
-const scheduleData = {
-    day: [
-        { time: '10:00', event: 'Встреча' },
-        { time: '14:00', event: 'Конференция' },
-        { time: '18:00', event: 'Ужин' }
-    ],
-    week: [
-        { date: '2023-05-20', event: 'Встреча' },
-        { date: '2023-05-22', event: 'Конференция' },
-        { date: '2023-05-25', event: 'Ужин' }
-    ],
-    month: [
-        { date: '2023-05-01', event: 'Встреча' },
-        { date: '2023-05-10', event: 'Конференция' },
-        { date: '2023-05-20', event: 'Ужин' }
-    ]
-};
-
 document.getElementById("date").value = formatDate(new Date())
 const today = new Date();
-
-
-
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -89,7 +67,7 @@ function calculateEventHeight(startHour, startMinute, endHour, endMinute) {
 let allEventsFromCalendar = []
 
 function getEvents() {
-    postData("http://"+myip+":3000/cal", { event: "get", age: 25 })
+    postData(`http://${myip}:3000/cal`, { event: "get", age: 25 })
         .then((data) => {
             allEventsFromCalendar = JSON.parse(data).array
             changeData(new Date())

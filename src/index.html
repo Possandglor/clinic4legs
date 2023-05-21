@@ -10,16 +10,17 @@
     <a class="schedule selectedTab" onclick="selectTab(this)">Расписание</a>
     <a class="clients" onclick="selectTab(this)">Клиенты</a>
     <img src="/logo.png" width="200px" />
+    <label id="myipad" ip="192.168.0.113" ></label>
   </div>
   <div class="main selectedMain" id="schedule">
     <button onclick="changeDateInput('prev')">
       <= </button>
 
-    <input  id="date" type="date" onchange="changeData(this.value)"/>
-    
-    <button onclick="changeDateInput('next')">=></button>
+        <input id="date" type="date" onchange="changeData(this.value)" />
 
-    <div id="schedule-chart"></div>
+        <button onclick="changeDateInput('next')">=></button>
+
+        <div id="schedule-chart"></div>
 
   </div>
   <div class="main unselectedMain" id="clients">
@@ -110,7 +111,7 @@
                 Вид питомца:
             </label>
             </td>
-            <td >
+            <td>
               <select id="profileType" size="2">
                 <option>Собака</option>
                 <option>Кот</option>
@@ -144,7 +145,7 @@
             </label>
             </td>
             <td style="width:100%">
-              <textarea id="profileComment" ></textarea>
+              <textarea id="profileComment"></textarea>
             </td>
           </tr>
           <tr>
@@ -167,8 +168,8 @@
   <div id="popup" class="popup">
     <div class="popup-content">
       <span class="close" onclick="closePopup()">&times;</span>
-      <input id="id1" type="date"/>
-      <input id="id1" type="time"/>
+      <input id="id1" type="date" />
+      <input id="id1" type="time" />
 
     </div>
   </div>
