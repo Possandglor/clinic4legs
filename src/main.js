@@ -5,6 +5,8 @@ var myip = document.getElementById("myipad").getAttribute("ip")
 //     myip = document.getElementById("myipad").getAttribute("ip")
 var currentProfile = {}
 console.log(myip)
+var clientList = []
+var visitList = []
 async function postData(url = "", data = {}) {
     console.log(url)
     // Default options are marked with *
@@ -20,8 +22,6 @@ async function postData(url = "", data = {}) {
     });
     return response.text(); // parses JSON response into native JavaScript objects
 }
-var clientList = []
-var visitList = []
 
 function openPopup(elem) {
     elem.style.display = "block";
@@ -35,10 +35,11 @@ function closePopup(elem) {
 
 
 function openPopupAnalyse() {
+    const { shell } = require('electron')
     let selectedAnalyse = document.getElementById("profileAnalyses").selectedIndex
     document.getElementById("dateAnalyse").value = formatDate(new Date(currentProfile.analyses[selectedAnalyse].date))
     document.getElementById("textAnalyse").innerText = currentProfile.analyses[selectedAnalyse].text
-    document.getElementById("fileAnalyse").setAttribute("href",currentProfile.analyses[selectedAnalyse].file)
+    document.getElementById("fileAnalyse").setAttribute("onclick", shell.openPath(currentProfile.analyses[selectedAnalyse].file))
     document.getElementById("fileAnalyse").innerText = currentProfile.analyses[selectedAnalyse].file
     document.getElementById("popupAnalyse").style.display = "block";
 }
@@ -95,6 +96,9 @@ function loadProfile(client) {
         option.innerText = a.date
         console.log(a)
         document.getElementById("profileAnalyses").appendChild(option)
-
     }
+
+    // for(let a of VisitList){
+    //     if
+    // }
 }

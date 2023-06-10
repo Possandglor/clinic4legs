@@ -16,4 +16,5 @@ function selectTab(a) {
         visitList = data.VisitList
     })
     getEvents()
+    searchClient()
 }

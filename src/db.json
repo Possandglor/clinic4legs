@@ -2,14 +2,13 @@
     "ClientList": [
         {
             "FIO": "Симоненко В.",
-            "phoneNumber": "380500559015",
+            "phoneNumber": "0500559015",
             "petName": "Буся",
             "petSex": "Ж",
             "petBreed": "Падлюка",
             "petBirthDate": "2018",
             "comment": "Скотыняка",
-            "analyses": [
-            ]
+            "analyses": []
         },
         {
             "FIO": "Кусакина",
@@ -21,14 +20,14 @@
             "comment": "Comment1",
             "analyses": [
                 {
-                    "date":"2023-05-22",
-                    "text":"text2",
-                    "file":"logo.png"
+                    "date": "2023-05-22",
+                    "text": "text2",
+                    "file": "logo.png"
                 },
                 {
-                    "date":"2023-05-21",
-                    "text":"text1",
-                    "file":"logo.png"
+                    "date": "2023-05-21",
+                    "text": "text1",
+                    "file": "logo.png"
                 }
             ]
         },
@@ -41,32 +40,68 @@
             "petBirthDate": "20 мартобря",
             "comment": "щфшащва",
             "analyses": []
+        },
+        {
+            "FIO": "",
+            "phoneNumber": "0921234567",
+            "petName": "",
+            "petSex": "",
+            "petBreed": "",
+            "petBirthDate": "",
+            "comment": "",
+            "analyses": []
+        },
+        {
+            "FIO": "",
+            "phoneNumber": "0911234567",
+            "petName": "",
+            "petSex": "",
+            "petBreed": "",
+            "petBirthDate": "",
+            "comment": "",
+            "analyses": []
         }
     ],
     "VisitList": [
         {
-            "date": "2023-05-13 12:00",
-            "phoneNumber": "12344444",
-            "vid": null,
-            "anamnez": null,
-            "appointment": "Не пришел (петух)",
-            "status": null
-        },
-        {
-            "date": "2023-05-13 14:00",
-            "phoneNumber": "12345",
-            "vid": "Укол",
-            "anamnez": "болит ножка",
-            "appointment": "",
-            "status": "отменен (петух)"
-        },
-        {
-            "date": "2023-05-14 12:00",
-            "phoneNumber": "380500559015",
+            "dateStart": "2023-06-10T12:00:00.000Z",
+            "dateEnd": "2023-06-10T14:00:00.000Z",
+            "phoneNumber": "0500559015",
             "vid": "укол",
-            "anamnez": "фралфрадш",
+            "anamnez": "Шото с жопкой",
             "appointment": "Амоксицилин 0.5",
-            "status": ""
+            "status": "",
+            "title": "укол кошка Буся 0500559015"
+        },
+        {
+            "dateStart": "2023-06-08T08:00:00.000Z",
+            "dateEnd": "2023-06-08T09:00:00.000Z",
+            "phoneNumber": "0921234567",
+            "vid": "",
+            "anamnez": "",
+            "appointment": "",
+            "status": "",
+            "title": "укол собака Герда 0921234567"
+        },
+        {
+            "dateStart": "2023-06-08T14:30:00.000Z",
+            "dateEnd": "2023-06-08T15:30:00.000Z",
+            "phoneNumber": "0911234567",
+            "vid": "",
+            "anamnez": "",
+            "appointment": "",
+            "status": "",
+            "title": "укол кот Вася 0911234567"
+        },
+        {
+            "dateStart": "2023-06-09T10:00:00.000Z",
+            "dateEnd": "2023-06-09T11:00:00.000Z",
+            "phoneNumber": "0911234567",
+            "vid": "",
+            "anamnez": "",
+            "appointment": "",
+            "status": "",
+            "title": "укол кот Вася 0911234567"
         }
     ]
 }

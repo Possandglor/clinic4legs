@@ -69,7 +69,8 @@ let allEventsFromCalendar = []
 function getEvents() {
     postData(`http://${myip}:3000/cal`, { event: "get", age: 25 })
         .then((data) => {
-            allEventsFromCalendar = JSON.parse(data).array
+            allEventsFromCalendar = JSON.parse(data).VisitList
+            
             changeData(new Date())
         });
 }
@@ -88,14 +89,15 @@ function formatedTime(date) {
 }
 function changeData(date) {
     let eventsInSelectedDay = allEventsFromCalendar.filter((elem) => {
-        return formatDate(new Date(elem.split("|")[1])) == formatDate(new Date(date))
+        return formatDate(new Date(elem.dateStart)) == formatDate(new Date(date))
     })
+    console.log(eventsInSelectedDay)
     let eventsData = []
     for (let a of eventsInSelectedDay) {
         eventsData.push({
-            startTime: formatedTime(new Date(a.split("|")[1])),
-            endTime: formatedTime(new Date(a.split("|")[2])),
-            title: a.split("|")[0],
+            startTime: formatedTime(new Date(a.dateStart)),
+            endTime: formatedTime(new Date(a.dateEnd)),
+            title: a.title,
         })
     }
 
@@ -106,10 +108,14 @@ function changeData(date) {
 function changeDateInput(type) {
     let i = 0;
     if (type == "prev") {
-        i = -1
+        i = -1;
+    } else {
+        i = 1;
     }
-    else { i = 1 }
-    let newDate = new Date().setDate(new Date(document.getElementById("date").value).getDate() + i)
-    document.getElementById("date").value = formatDate(new Date(newDate))
-    changeData(new Date(document.getElementById("date").value))
+
+    let currentDate = new Date(document.getElementById("date").value);
+    let newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + i);
+
+    document.getElementById("date").value = formatDate(newDate);
+    changeData(newDate);
 }
