@@ -1,10 +1,5 @@
-var myip = document.getElementById("myipad").getAttribute("ip")
-// console.log(document.getElementById("myipad").getAttribute("ip"))
-// if (document.getElementById("myipad").getAttribute("ip") == "" && document.getElementById("myipad").getAttribute("ip") == undefined && 
-// document.getElementById("myipad").getAttribute("ip") == null )
-//     myip = document.getElementById("myipad").getAttribute("ip")
+
 var currentProfile = {}
-console.log(myip)
 var clientList = []
 var visitList = []
 async function postData(url = "", data = {}) {
@@ -12,7 +7,6 @@ async function postData(url = "", data = {}) {
     // Default options are marked with *
     const response = await fetch(url, {
         // mode: 'no-cors',
-
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
             "Access-Control-Allow-Origin": "*",
@@ -28,9 +22,7 @@ function openPopup(elem) {
 }
 
 function closePopup(elem) {
-    console.log(elem)
     elem.style.display = "none";
-    console.log(elem.style.display)
 }
 
 
@@ -81,24 +73,36 @@ function loadClientProfile() {
 
 function loadProfile(client) {
     currentProfile = client
-    document.getElementById("profileFIO").value = client.FIO
-    document.getElementById("profilePhoneNumber").value = client.phoneNumber
-    document.getElementById("profilePetName").value = client.petName
-    document.getElementById("profilePetSex").value = client.petSex
-    document.getElementById("profileType").value = client.type
-    document.getElementById("profilePetBreed").value = client.petBreed
-    document.getElementById("profilePetBirthDate").value = client.petBirthDate
-    document.getElementById("profileComment").value = client.comment
-    document.getElementById("profileAnalyses").innerHTML = ""
-    console.log(client.analyses)
-    for (let a of client.analyses) {
-        let option = document.createElement("option")
-        option.innerText = a.date
-        console.log(a)
-        document.getElementById("profileAnalyses").appendChild(option)
-    }
-
-    // for(let a of VisitList){
-    //     if
+    console.log(currentProfile)
+    document.getElementById("profileFIO").value = currentProfile.FIO
+    document.getElementById("profilePhoneNumber").value = currentProfile.phoneNumber
+    document.getElementById("profilePetName").value = currentProfile.petName
+    document.getElementById("profilePetSex").value = currentProfile.petSex
+    document.getElementById("profileType").value = currentProfile.petType
+    document.getElementById("profilePetBreed").value = currentProfile.petBreed
+    document.getElementById("profilePetBirthDate").value = currentProfile.petBirthDate
+    document.getElementById("profileComment").value = currentProfile.comment
+    // document.getElementById("profileAnalyses").innerHTML = ""
+    document.getElementById("profileVisits").innerHTML = ""
+    // console.log(client.analyses)
+    // for (let a of client.analyses) {
+    //     let option = document.createElement("option")
+    //     option.innerText = a.date
+    //     console.log(a)
+    //     document.getElementById("profileAnalyses").appendChild(option)
     // }
+    let database = postData(`${window.location.href}getDataBase`, {}).then((data) => {
+        // data = JSON.parse(data)
+        
+        return JSON.parse(data)
+    })
+    
+    for (let a of database.VisitList) {
+        if (currentProfile.phoneNumber == a.phoneNumber) {
+            let option = document.createElement("option")
+            console.log(a)
+            option.innerText = formatDate(new Date(a.dateStart))
+            document.getElementById("profileVisits").appendChild(option)
+        }
+    }
 }

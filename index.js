@@ -1,5 +1,6 @@
 // main.js
-
+const { startServer } = require('./server.js');
+const isDev = require('electron-is-dev');
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
@@ -18,8 +19,11 @@ const createWindow = () => {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  let currentUrl = isDev ? "http://localhost:3000" : "file://${__dirname}/site/index.html"
+  // mainWindow.loadFile('site/index.html')
+  // mainWindow.loadFile(currentUrl)
 
+  mainWindow.loadURL(currentUrl);
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }

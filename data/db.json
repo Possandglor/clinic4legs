@@ -5,6 +5,7 @@
             "phoneNumber": "0500559015",
             "petName": "Буся",
             "petSex": "Ж",
+            "petType": "кот",
             "petBreed": "Падлюка",
             "petBirthDate": "2018",
             "comment": "Скотыняка",
@@ -15,6 +16,7 @@
             "phoneNumber": "0664883209",
             "petName": "Марго",
             "petSex": "Ж",
+            "petType": "кот",
             "petBreed": "Жопа",
             "petBirthDate": "2019",
             "comment": "Comment1",
@@ -36,6 +38,7 @@
             "phoneNumber": "12345",
             "petName": "Гавнюк",
             "petSex": "М",
+            "petType": "кот",
             "petBreed": "зараза",
             "petBirthDate": "20 мартобря",
             "comment": "щфшащва",
@@ -46,6 +49,7 @@
             "phoneNumber": "0921234567",
             "petName": "",
             "petSex": "",
+            "petType": "кот",
             "petBreed": "",
             "petBirthDate": "",
             "comment": "",
@@ -56,6 +60,7 @@
             "phoneNumber": "0911234567",
             "petName": "",
             "petSex": "",
+            "petType": "кот",
             "petBreed": "",
             "petBirthDate": "",
             "comment": "",
@@ -84,6 +89,16 @@
             "title": "укол собака Герда 0921234567"
         },
         {
+            "dateStart": "2023-06-04T08:00:00.000Z",
+            "dateEnd": "2023-06-04T08:30:00.000Z",
+            "phoneNumber": "0500559015",
+            "vid": "",
+            "anamnez": "",
+            "appointment": "",
+            "status": "",
+            "title": "вши кошка Валера 380500559015"
+        },
+        {
             "dateStart": "2023-06-08T14:30:00.000Z",
             "dateEnd": "2023-06-08T15:30:00.000Z",
             "phoneNumber": "0911234567",
@@ -102,6 +117,16 @@
             "appointment": "",
             "status": "",
             "title": "укол кот Вася 0911234567"
+        },
+        {
+            "dateStart": "2023-07-08T12:00:00.000Z",
+            "dateEnd": "2023-07-08T13:00:00.000Z",
+            "phoneNumber": "0500559015",
+            "vid": "",
+            "anamnez": "",
+            "appointment": "",
+            "status": "",
+            "title": "кошка буся 0500559015"
         }
     ]
 }

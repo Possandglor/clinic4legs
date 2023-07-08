@@ -6,43 +6,41 @@ const path = require('path')
 const app = express();
 const hostname = '0.0.0.0';
 const port = 3000;
-
-
-let serverDataBase = JSON.parse(fs.readFileSync("src/db.json"))
+let scriptUrl = "https://script.google.com/macros/s/AKfycbwHdxighbGpBuXRTClaZVFWh6YZ4JNiYDCwMizV0u6478sQu8EGl3nkJe40K_j5lS_9/exec"
+async function postData(url = "", data = {}) {
+    console.log(data)
+    // Default options are marked with *
+    const response = await fetch(url, {
+        // mode: 'no-cors',
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+    return response.text(); // parses JSON response into native JavaScript objects
+}
 
 // Функция для чтения базы данных из JSON-файла
 function readDatabase() {
-    const data = fs.readFileSync("src/db.json");
+    const data = fs.readFileSync("data/db.json");
     return JSON.parse(data);
 }
 
 // Функция для записи базы данных в JSON-файл
 function writeDatabase(database) {
-    fs.writeFileSync("src/db.json", JSON.stringify(database, null, 4));
+    fs.writeFileSync("data/db.json", JSON.stringify(database, null, 4));
 }
 
-var isServer = true
-let index2 = fs.readFileSync("src/index.html", encoding = "utf8")
-// console.log(index2)
-index2 = index2.replace("changedip", myip)
-// console.log(index2)
-console.log(myip)
-fs.writeFileSync("src/index.html", index2)
-// Устанавливаем путь к статическим файлам
 app.use(cors())
-app.use(express.static(__dirname + "\\src"));
+app.use(express.static(__dirname + "\\site"));
 app.use(express.json());
 // Определяем маршрут для обработки запросов к корневому URL
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html');
-    res.sendFile(path.join(__dirname, '\\src\\index2.html'));
+    res.sendFile(path.join(__dirname, '\\index.html'));
 });
 app.post("/cal", (req, res) => {
-    console.log(req)
-    postData("https://script.google.com/macros/s/AKfycbwyDtsQfrPeUCQ6qDqY5jYQNj-RyPGVASff5kExRIJvmRjVdBGDrmU3JDIrbDCIeVZi/exec", { event: "get", age: 25 })
+    postData(scriptUrl, { event: "get", age: 25 })
         .then((data) => {
             res.setHeader('Content-Type', 'application/json');
-
             processVisitList(data.split("\n"))
             let allEventsFromCal = readDatabase()
 
@@ -50,14 +48,10 @@ app.post("/cal", (req, res) => {
         });
 });
 app.post("/calCreate", (req, res) => {
-    console.log(req)
-    postData("https://script.google.com/macros/s/AKfycbwyDtsQfrPeUCQ6qDqY5jYQNj-RyPGVASff5kExRIJvmRjVdBGDrmU3JDIrbDCIeVZi/exec", { event: "create", title: "1234" })
+    postData(scriptUrl, req.body)
         .then((data) => {
             res.setHeader('Content-Type', 'application/json');
-            // let allEventsFromCal = {
-            //     "array": data.split("\n")
-            // }
-            // res.send(JSON.stringify(allEventsFromCal))
+            res.send(data)
         });
 });
 
@@ -78,13 +72,10 @@ function startServer() {
 
 // Функция для обработки списка посещений из API
 function processVisitList(visitList) {
-    const database = readDatabase();
-    // console.log(visitList)
-    // visitList.forEach(visit =>
+    const database =  readDatabase();
     for (visit of visitList) {
         const phoneNumberMatch = visit.match(/\d{9,}/); // Ищем последовательность из 9 и более цифр (предполагаемый номер телефона)
-        const phoneNumber = phoneNumberMatch ? phoneNumberMatch[0] : null;
-
+        const phoneNumber = phoneNumberMatch ? phoneNumberMatch[0].slice(-10) : null;
         if (phoneNumber) {
             const visitInfo = visit.split('|');
             const visitDateStartTime = new Date(visitInfo[1]);

@@ -63,18 +63,33 @@ function calculateEventHeight(startHour, startMinute, endHour, endMinute) {
     const height = Math.ceil(totalMinutes / minutesPerSlot * 40);
     return height;
 }
+async function postData(url = "", data = {}) {
+    console.log(url)
+    // Default options are marked with *
+    const response = await fetch(url, {
+        // mode: 'no-cors',
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+    return response.text(); // parses JSON response into native JavaScript objects
+}
 
 let allEventsFromCalendar = []
 
-function getEvents() {
-    postData(`http://${myip}:3000/cal`, { event: "get", age: 25 })
+function getEvents(date) {
+    console.log(`${window.location.href}cal`)
+    postData(`${window.location.href}cal`, { event: "get", age: 25 })
         .then((data) => {
             allEventsFromCalendar = JSON.parse(data).VisitList
-            
-            changeData(new Date())
+            console.log(allEventsFromCalendar)
+            changeData(date)
         });
 }
-getEvents()
+getEvents(new Date())
 
 function formatDate(date) {
     const year = date.getFullYear();
@@ -88,6 +103,9 @@ function formatedTime(date) {
     return `${hour}:${minute}`
 }
 function changeData(date) {
+    if (typeof date != Date)
+        date = document.getElementById("date").value
+    console.log(date)
     let eventsInSelectedDay = allEventsFromCalendar.filter((elem) => {
         return formatDate(new Date(elem.dateStart)) == formatDate(new Date(date))
     })
@@ -117,5 +135,5 @@ function changeDateInput(type) {
     let newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + i);
 
     document.getElementById("date").value = formatDate(newDate);
-    changeData(newDate);
+    getEvents(newDate);
 }

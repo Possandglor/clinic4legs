@@ -2,21 +2,19 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="/style.css" type="text/css">
 </head>
 
 <body>
   <div class="sidenav">
     <a class="schedule selectedTab" onclick="selectTab(this)">Расписание</a>
     <a class="clients" onclick="selectTab(this)">Клиенты</a>
-    <img src="/logo.png" width="200px" />
-    <label id="myipad" ip="192.168.0.113" ></label>
+    <img src="styles/logo.png" width="200px" />
   </div>
   <div class="main selectedMain" id="schedule">
     <button onclick="changeDateInput('prev')">
       <= </button>
 
-        <input id="date" type="date" onchange="changeData(this.value)" />
+        <input id="date" type="date" onchange="getEvents(new Date(this.value))" />
 
         <button onclick="changeDateInput('next')">=></button>
 
@@ -55,18 +53,15 @@
           </tr>
           <br>
         </table>
-        <select id="foundClients" size="20" style="width: 100%;">
+        <select id="foundClients" size="20" style="width: 100%;" onchange="loadClientProfile()">
         </select>
       </div>
       <div class="client-profile">
-
         <table>
           <thead>
             <td>
-
             </td>
             <td style="width:100%">
-
             </td>
           </thead>
           <tr>
@@ -125,7 +120,7 @@
             </label>
             </td>
             <td>
-              <input id="profilePetSex" />
+              <input id="profilePetBreed" />
             </td>
           </tr>
           <tr>
@@ -155,10 +150,12 @@
             </label>
             </td>
             <td style="width:100%">
-              <select id="profileAnalyses" size="20" style="width: 100%;">
+              <select id="profileAnalyses" size="20" style="width: 100%;"
+                ondblclick="openPopupAnalyse()">
               </select>
             </td>
           </tr> -->
+
           <tr>
             <label>
               <td>
@@ -170,24 +167,58 @@
               </select>
             </td>
           </tr>
+          <tr>
+            <td>
+              <button onclick="openPopup(document.getElementById('newVisit'))">Запланировать прием</button>
+            </td>
+            <td>
+              <button>Удалить прием</button>
+            </td>
+          </tr>
           <br>
         </table>
       </div>
     </div>
-    <button onclick="openPopup()">Открыть окно</button>
   </div>
-  <div id="popup" class="popup">
+  <div id="newVisit" class="popup">
     <div class="popup-content">
-      <span class="close" onclick="closePopup()">&times;</span>
-      <input id="id1" type="date" />
-      <input id="id1" type="time" />
+      <span class="close" onclick="closePopup(this.parentElement.parentElement)">&times;</span>
+      <table>
+        <tr>
+          <td>
+            Причина:
+          </td>
+          <td>
+            <input id="reasonNewVisit" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Начало:
+          </td>
+          <td>
+            <input id="newVisitDateStart" onchange="plainNewVisitDate()" type="date" />
+            <input id="newVisitTimeStart" onchange="plainNewVisittime()" type="time" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Конец:
+          </td>
+          <td>
+            <input id="newVisitDateEnd" type="date" />
+            <input id="newVisitTimeEnd" type="time" />
+          </td>
+        </tr>
 
+      </table>
+      <button onclick="createNewVisit()">Запланировать прием</button>
     </div>
   </div>
-  <script src="/tabs.js"></script>
-  <script src="/main.js"></script>
-  <script src="/calendar.js">
-  </script>
+  <link rel="stylesheet" href="styles/style.css" type="text/css">
+  <script src="scripts/tabs.js"></script>
+  <script src="scripts/main.js"></script>
+  <script src="scripts/calendar.js"></script>
 </body>
 
 </html>
