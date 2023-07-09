@@ -65,19 +65,29 @@
             "petBirthDate": "",
             "comment": "",
             "analyses": []
+        },
+        {
+            "FIO": "",
+            "phoneNumber": "0920000000",
+            "petName": "",
+            "petSex": "",
+            "petBreed": "",
+            "petBirthDate": "",
+            "comment": "",
+            "analyses": []
+        },
+        {
+            "FIO": "",
+            "phoneNumber": "0935555555",
+            "petName": "",
+            "petSex": "",
+            "petBreed": "",
+            "petBirthDate": "",
+            "comment": "",
+            "analyses": []
         }
     ],
     "VisitList": [
-        {
-            "dateStart": "2023-06-10T12:00:00.000Z",
-            "dateEnd": "2023-06-10T14:00:00.000Z",
-            "phoneNumber": "0500559015",
-            "vid": "укол",
-            "anamnez": "Шото с жопкой",
-            "appointment": "Амоксицилин 0.5",
-            "status": "",
-            "title": "укол кошка Буся 0500559015"
-        },
         {
             "dateStart": "2023-06-08T08:00:00.000Z",
             "dateEnd": "2023-06-08T09:00:00.000Z",
@@ -87,16 +97,6 @@
             "appointment": "",
             "status": "",
             "title": "укол собака Герда 0921234567"
-        },
-        {
-            "dateStart": "2023-06-04T08:00:00.000Z",
-            "dateEnd": "2023-06-04T08:30:00.000Z",
-            "phoneNumber": "0500559015",
-            "vid": "",
-            "anamnez": "",
-            "appointment": "",
-            "status": "",
-            "title": "вши кошка Валера 380500559015"
         },
         {
             "dateStart": "2023-06-08T14:30:00.000Z",
@@ -119,14 +119,14 @@
             "title": "укол кот Вася 0911234567"
         },
         {
-            "dateStart": "2023-07-08T12:00:00.000Z",
-            "dateEnd": "2023-07-08T13:00:00.000Z",
-            "phoneNumber": "0500559015",
+            "dateStart": "2023-07-07T13:00:00.000Z",
+            "dateEnd": "2023-07-07T14:00:00.000Z",
+            "phoneNumber": "0935555555",
             "vid": "",
             "anamnez": "",
             "appointment": "",
             "status": "",
-            "title": "кошка буся 0500559015"
+            "title": "укол кот олег 380935555555"
         }
     ]
 }

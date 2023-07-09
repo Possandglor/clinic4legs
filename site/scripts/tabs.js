@@ -1,5 +1,5 @@
 // alert("hello")
-function selectTab(a) {
+async function selectTab(a) {
 
     let previousMain = document.getElementsByClassName("selectedMain")[0]
     previousMain.setAttribute("class", previousMain.getAttribute("class").replace("selectedMain", "unselectedMain"))
@@ -10,11 +10,8 @@ function selectTab(a) {
     let newMain = document.getElementById(a.getAttribute("class"))
     newMain.setAttribute("class", newMain.getAttribute("class").replace("unselectedMain", "selectedMain"))
     a.setAttribute("class", a.getAttribute("class").split(" ")[0] + " selectedTab")
-    postData(`${window.location.href}getDataBase`, {}).then((data) => {
-        data = JSON.parse(data)
-        clientList = data.ClientList
-        visitList = data.VisitList
-    })
+
     getEvents(document.getElementById("date"))
+    await getDataBase()
     searchClient()
 }

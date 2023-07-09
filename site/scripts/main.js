@@ -47,6 +47,7 @@ function searchClient() {
     let petName = document.getElementById("searchPetName").value == null ? "" : document.getElementById("searchPetName").value
     let select = document.getElementById("foundClients")
     select.innerHTML = ""
+    console.log(clientList)
     for (let a of clientList) {
         if (a.FIO.toLowerCase().includes(FIO.toLowerCase())
             && a.phoneNumber.toLowerCase().includes(phoneNumber.toLowerCase())
@@ -71,14 +72,14 @@ function loadClientProfile() {
     }
 }
 
-function loadProfile(client) {
+async function loadProfile(client) {
     currentProfile = client
     console.log(currentProfile)
     document.getElementById("profileFIO").value = currentProfile.FIO
     document.getElementById("profilePhoneNumber").value = currentProfile.phoneNumber
     document.getElementById("profilePetName").value = currentProfile.petName
     document.getElementById("profilePetSex").value = currentProfile.petSex
-    document.getElementById("profileType").value = currentProfile.petType
+    document.getElementById("profilePetType").value = currentProfile.petType
     document.getElementById("profilePetBreed").value = currentProfile.petBreed
     document.getElementById("profilePetBirthDate").value = currentProfile.petBirthDate
     document.getElementById("profileComment").value = currentProfile.comment
@@ -91,18 +92,42 @@ function loadProfile(client) {
     //     console.log(a)
     //     document.getElementById("profileAnalyses").appendChild(option)
     // }
-    let database = postData(`${window.location.href}getDataBase`, {}).then((data) => {
-        // data = JSON.parse(data)
-        
-        return JSON.parse(data)
-    })
-    
+
+
+    console.log(database)
     for (let a of database.VisitList) {
         if (currentProfile.phoneNumber == a.phoneNumber) {
-            let option = document.createElement("option")
-            console.log(a)
-            option.innerText = formatDate(new Date(a.dateStart))
+            let option = document.createElement("option")   
+            option.innerText = formatDate(new Date(a.dateStart)) + " " + formatedTime(new Date(a.dateStart))
             document.getElementById("profileVisits").appendChild(option)
         }
     }
+}
+
+
+async function getDataBase() {
+    await postData(`${window.location.href}getDataBase`, {}).then((data) => {
+        data = JSON.parse(data)
+        database = data
+        clientList = data.ClientList
+        visitList = data.VisitList
+    })
+}
+
+function getCurrentIP() {
+    postData(`${window.location.href}currentIP`, {}).then((data) => {
+        data = JSON.parse(data)
+        console.log(data)
+        document.getElementById("currentIP").innerText = data.currentIP
+    })
+}
+
+if (window.location.href.includes("localh")) {
+    getCurrentIP()
+    loadQRCode()
+}
+
+function loadQRCode()
+{
+ document.getElementById("qrcode").setAttribute("src","styles/qrcode.png")
 }

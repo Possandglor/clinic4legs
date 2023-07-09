@@ -9,6 +9,8 @@
     <a class="schedule selectedTab" onclick="selectTab(this)">Расписание</a>
     <a class="clients" onclick="selectTab(this)">Клиенты</a>
     <img src="styles/logo.png" width="200px" />
+    <img id="qrcode" src="" width="200px" />
+    <label id="currentIP"></label>
   </div>
   <div class="main selectedMain" id="schedule">
     <button onclick="changeDateInput('prev')">
@@ -107,10 +109,7 @@
             </label>
             </td>
             <td>
-              <select id="profileType" size="2">
-                <option>Собака</option>
-                <option>Кот</option>
-              </select>
+              <input id="profilePetType" />
             </td>
           </tr>
           <tr>
@@ -163,7 +162,7 @@
             </label>
             </td>
             <td style="width:100%">
-              <select id="profileVisits" size="20" style="width: 100%;">
+              <select id="profileVisits" size="20" style="width: 100%;" >
               </select>
             </td>
           </tr>
@@ -172,7 +171,7 @@
               <button onclick="openPopup(document.getElementById('newVisit'))">Запланировать прием</button>
             </td>
             <td>
-              <button>Удалить прием</button>
+              <button id="deleteSelectedVisit">Удалить прием</button>
             </td>
           </tr>
           <br>
@@ -215,10 +214,80 @@
       <button onclick="createNewVisit()">Запланировать прием</button>
     </div>
   </div>
+
+  <div id="watchVisit" class="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup(this.parentElement.parentElement)">&times;</span>
+      <table>
+        <tr>
+          <td>
+            Заголовок:
+          </td>
+          <td>
+            <input id="titleWatchVisit" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Вид:
+          </td>
+          <td>
+            <input id="vidWatchVisit" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Анамнез:
+          </td>
+          <td>
+            <input id="anamnezWatchVisit" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Прием:
+          </td>
+          <td>
+            <input id="appointmentWatchVisit" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Статус:
+          </td>
+          <td>
+            <input id="statusWatchVisit" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Начало:
+          </td>
+          <td>
+            <input id="watchVisitDateStart" onchange="plainWatchVisitDate()" type="date" />
+            <input id="watchVisitTimeStart" onchange="plainWatchVisittime()" type="time" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Конец:
+          </td>
+          <td>
+            <input id="watchVisitDateEnd" type="date" />
+            <input id="watchVisitTimeEnd" type="time" />
+          </td>
+        </tr>
+
+      </table>
+      <button onclick="saveWatchVisit()">Сохранить</button>
+    </div>
+  </div>
   <link rel="stylesheet" href="styles/style.css" type="text/css">
   <script src="scripts/tabs.js"></script>
   <script src="scripts/main.js"></script>
   <script src="scripts/calendar.js"></script>
+  <script src="scripts/visits.js"></script>
+  <script src="scripts/buttonsActions.js"></script>
 </body>
 
 </html>

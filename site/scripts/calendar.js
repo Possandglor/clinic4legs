@@ -81,11 +81,9 @@ async function postData(url = "", data = {}) {
 let allEventsFromCalendar = []
 
 function getEvents(date) {
-    console.log(`${window.location.href}cal`)
     postData(`${window.location.href}cal`, { event: "get", age: 25 })
         .then((data) => {
             allEventsFromCalendar = JSON.parse(data).VisitList
-            console.log(allEventsFromCalendar)
             changeData(date)
         });
 }
@@ -105,11 +103,9 @@ function formatedTime(date) {
 function changeData(date) {
     if (typeof date != Date)
         date = document.getElementById("date").value
-    console.log(date)
     let eventsInSelectedDay = allEventsFromCalendar.filter((elem) => {
         return formatDate(new Date(elem.dateStart)) == formatDate(new Date(date))
     })
-    console.log(eventsInSelectedDay)
     let eventsData = []
     for (let a of eventsInSelectedDay) {
         eventsData.push({

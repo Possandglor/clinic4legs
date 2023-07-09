@@ -1,4 +1,5 @@
 const http = require('http');
+const os = require('os');
 const express = require('express');
 const fs = require("fs")
 const cors = require('cors');
@@ -6,9 +7,10 @@ const path = require('path')
 const app = express();
 const hostname = '0.0.0.0';
 const port = 3000;
-let scriptUrl = "https://script.google.com/macros/s/AKfycbwHdxighbGpBuXRTClaZVFWh6YZ4JNiYDCwMizV0u6478sQu8EGl3nkJe40K_j5lS_9/exec"
+var currentIP = ""
+
+let scriptUrl = "https://script.google.com/macros/s/AKfycbw8PUmWsUd5_c8JrqouQ2GMJmhMutNXFjBIzEjRfWmXCJ1hbby3HS1KU56g6OAFCgfT/exec"
 async function postData(url = "", data = {}) {
-    console.log(data)
     // Default options are marked with *
     const response = await fetch(url, {
         // mode: 'no-cors',
@@ -33,19 +35,20 @@ app.use(cors())
 app.use(express.static(__dirname + "\\site"));
 app.use(express.json());
 // Определяем маршрут для обработки запросов к корневому URL
+
+app.post("/currentIP", (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    res.send(JSON.stringify({ currentIP: currentIP }))
+})
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '\\index.html'));
 });
 app.post("/cal", (req, res) => {
-    postData(scriptUrl, { event: "get", age: 25 })
-        .then((data) => {
-            res.setHeader('Content-Type', 'application/json');
-            processVisitList(data.split("\n"))
-            let allEventsFromCal = readDatabase()
-
-            res.send(JSON.stringify(allEventsFromCal))
-        });
+    res.setHeader('Content-Type', 'application/json');
+    let allEventsFromCal = readDatabase()
+    res.send(JSON.stringify(allEventsFromCal))
 });
 app.post("/calCreate", (req, res) => {
     postData(scriptUrl, req.body)
@@ -54,25 +57,100 @@ app.post("/calCreate", (req, res) => {
             res.send(data)
         });
 });
-
+app.post("/newVisit", (req, res) => {
+    res.send(JSON.stringify({ result: "ok" }))
+    console.log(req.body)
+    const database = readDatabase();
+    database.VisitList.push(req.body);
+    writeDatabase(database);
+})
 app.post("/getDataBase", (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(readDatabase()))
 });
 
+app.post("/getVisit", (req, res) => {
+    const database = readDatabase();
+    res.send(database.VisitList.filter(visit =>
+        visit.phoneNumber == req.body.phone && visit.dateStart == new Date(req.body.dateStart).toISOString()))
+});
+
+app.post("/saveVisit", (req, res) => {
+    const database = readDatabase();
+    for (visit of database.VisitList) {
+        if (visit.phoneNumber == req.body.old.phoneNumber && visit.dateStart == new Date(req.body.old.dateStart).toISOString() && visit.title == req.body.old.title) {
+            visit = req.body.new
+            break;
+        }
+    }
+    writeDatabase(database)
+    postData(scriptUrl, { event: "change", old: req.body.old, new: req.body.new })
+        .then((data) => {
+            res.send({ result: ok })
+        });
+
+});
+
+
+app.post("/deleteVisit", (req, res) => {
+    const database = readDatabase();
+    // for (visit of database.VisitList) {
+    //     if (visit.phoneNumber == req.body.phoneNumber && visit.dateStart == new Date(req.body.dateStart).toISOString() && visit.title == req.body.title) {
+    //         database.VisitList.remove(visit)
+    //         break;
+    //     }
+    // }
+    for (let i = 0; i < database.VisitList.length; i++) {
+        const visit = database.VisitList[i];
+        if (
+          visit.phoneNumber == req.body.phoneNumber &&
+          visit.dateStart == new Date(req.body.dateStart).toISOString() &&
+          visit.title == req.body.title
+        ) {
+          database.VisitList.splice(i, 1); // Используем метод splice() для удаления элемента
+          break;
+        }
+      }
+    writeDatabase(database)
+    postData(scriptUrl, { event: "delete", dateStart: req.body.dateStart, title: req.body.title })
+        .then((data) => {
+            
+            res.send({ result: "ok" })
+        });
+});
+
+
 // Запускаем сервер
 app.listen(3000, () => {
     console.log('Сервер запущен на порту 3000');
 });
-function startServer() {
 
+
+// Получение информации о сетевых интерфейсах
+const networkInterfaces = os.networkInterfaces();
+
+// Перебор сетевых интерфейсов и вывод информации
+for (const interfaceName in networkInterfaces) {
+    const interfaces = networkInterfaces[interfaceName];
+    for (const iface of interfaces) {
+        if (iface.family === 'IPv4' && !iface.internal) {
+            currentIP = iface.address + ":3000"
+        }
+    }
 }
 
+// Обновление данных из календаря раз в 30 секунд
+setInterval(() => {
+    console.log("interval request")
+    postData(scriptUrl, { event: "get" })
+        .then((data) => {
+            processVisitList(data.split("\n"))
+        });
+}, 30000);
 
-
-// Функция для обработки списка посещений из API
+// Функция для обновления списка посещений из API
 function processVisitList(visitList) {
-    const database =  readDatabase();
+    const database = readDatabase();
     for (visit of visitList) {
         const phoneNumberMatch = visit.match(/\d{9,}/); // Ищем последовательность из 9 и более цифр (предполагаемый номер телефона)
         const phoneNumber = phoneNumberMatch ? phoneNumberMatch[0].slice(-10) : null;
@@ -98,8 +176,6 @@ function processVisitList(visitList) {
                 };
                 database.ClientList.push(newClient);
             }
-
-            console.log()
             // Проверка наличия информации о посещении клиента в указанное время
             const existingVisit = database.VisitList.find(visit => {
                 return new Date(visit.dateStart).toISOString() === visitDateStartTime.toISOString() && visit.phoneNumber === phoneNumber
@@ -125,3 +201,7 @@ function processVisitList(visitList) {
     // Записываем обновленную базу данных в JSON-файл
     writeDatabase(database);
 }
+
+
+
+

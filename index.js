@@ -1,9 +1,13 @@
 // main.js
 const { startServer } = require('./server.js');
+const { qr } = require('./qr.js');
 const isDev = require('electron-is-dev');
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
+
+
+
 
 const createWindow = () => {
   // Create the browser window.
@@ -15,6 +19,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
+      
     }
   })
 
@@ -22,7 +27,7 @@ const createWindow = () => {
   let currentUrl = isDev ? "http://localhost:3000" : "file://${__dirname}/site/index.html"
   // mainWindow.loadFile('site/index.html')
   // mainWindow.loadFile(currentUrl)
-
+  mainWindow.maximize()
   mainWindow.loadURL(currentUrl);
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
