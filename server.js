@@ -5,8 +5,11 @@ const fs = require("fs")
 const cors = require('cors');
 const path = require('path')
 const app = express();
-const hostname = '0.0.0.0';
-const port = 3000;
+const multer = require('multer');
+
+const bodyParser = require('body-parser');
+
+
 var currentIP = ""
 
 let scriptUrl = "https://script.google.com/macros/s/AKfycbw8PUmWsUd5_c8JrqouQ2GMJmhMutNXFjBIzEjRfWmXCJ1hbby3HS1KU56g6OAFCgfT/exec"
@@ -34,6 +37,10 @@ function writeDatabase(database) {
 app.use(cors())
 app.use(express.static(__dirname + "\\site"));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('data'));
+
 // Определяем маршрут для обработки запросов к корневому URL
 
 app.post("/currentIP", (req, res) => {
@@ -89,10 +96,10 @@ app.post("/saveVisit", (req, res) => {
             visit.dateStart == new Date(req.body.old.dateStart).toISOString() &&
             visit.title == req.body.old.title
         ) {
-          database.VisitList[i] = req.body.new;
-          break;
+            database.VisitList[i] = req.body.new;
+            break;
         }
-      }
+    }
     writeDatabase(database)
     postData(scriptUrl, { event: "change", old: req.body.old, new: req.body.new })
         .then((data) => {
@@ -162,18 +169,80 @@ app.post("/saveClient", (req, res) => {
     for (var i = 0; i < database.ClientList.length; i++) {
         var client = database.ClientList[i];
         if (
-          client.phoneNumber == req.body.old.phoneNumber &&
-          client.FIO == req.body.old.FIO &&
-          client.petName == req.body.old.petName
+            client.phoneNumber == req.body.old.phoneNumber &&
+            client.FIO == req.body.old.FIO &&
+            client.petName == req.body.old.petName
         ) {
-          database.ClientList[i] = req.body.new;
-          console.log(req.body.new);
-          break;
+            database.ClientList[i] = req.body.new;
+            console.log(req.body.new);
+            break;
         }
-      }
+    }
     console.log(database.ClientList)
     writeDatabase(database)
     res.send(JSON.stringify({ result: "ok" }))
+});
+
+
+// Создайте хранилище для загруженных файлов
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        console.log(file.originalname)
+        const secondSlashIndex = file.originalname.indexOf("_", file.originalname.indexOf("_") + 1); // Индекс второго символа "/"
+        const trimmedText = file.originalname.substring(0, secondSlashIndex).replaceAll(":", "").replaceAll("-", "").replaceAll("_", "/");
+
+        let fullPath = __dirname + "/data/" + trimmedText
+        // Проверяем наличие папки
+        if (!fs.existsSync(fullPath)) {
+            // Создаем все родительские папки
+            fs.mkdirSync(path.dirname(fullPath), { recursive: true });
+
+            // Создаем конечную папку
+            fs.mkdirSync(fullPath);
+            console.log('Папка успешно создана');
+        } else {
+            console.log('Папка уже существует');
+        }
+        console.log(fullPath)
+        cb(null, fullPath); // Укажите путь к папке сохранения файлов
+    },
+    filename: function (req, file, cb) {
+        console.log(file.originalname)
+        cb(null, file.originalname.split("_")[file.originalname.split("_").length - 1]);
+    }
+});
+
+// Создайте экземпляр загрузчика multer
+const upload = multer({ storage: storage });
+
+app.post('/upload', upload.single('file'), function (req, res) {
+    // Отправьте успешный статус ответа
+    res.sendStatus(200);
+});
+
+app.post('/getFiles', (req, res) => {
+
+    let phoneNumber = req.body.phoneNumber
+    let date = req.body.date
+
+    const trimmedText = date.replaceAll(":", "").replaceAll("-", "").replaceAll("_", "/");
+
+    let reply = {}
+    fs.readdir(__dirname + "/data/" + phoneNumber + "/" + trimmedText, (err, files) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        // Выводим список файлов
+        files.forEach(file => {
+            console.log(file);
+            reply[file] = phoneNumber + "/" + trimmedText + "/" + file
+        });
+
+        console.log(reply)
+        res.send(JSON.stringify(reply))
+    });
 });
 
 // Запускаем сервер
@@ -257,7 +326,3 @@ function processVisitList(visitList) {
     // Записываем обновленную базу данных в JSON-файл
     writeDatabase(database);
 }
-
-
-
-

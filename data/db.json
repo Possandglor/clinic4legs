@@ -32,142 +32,38 @@
                     "file": "logo.png"
                 }
             ]
-        },
-        {
-            "FIO": "ФИО",
-            "phoneNumber": "0501234567",
-            "petName": "Вася",
-            "petSex": "м",
-            "petType": "кот",
-            "petBreed": "",
-            "petBirthDate": "",
-            "comment": "",
-            "analyses": []
-        },
-        {
-            "FIO": "Федоров Виталий",
-            "phoneNumber": "0991234567",
-            "petName": "",
-            "petSex": "",
-            "petType": "м",
-            "petBreed": "",
-            "petBirthDate": "",
-            "comment": "",
-            "analyses": []
-        },
-        {
-            "FIO": "Кукуев ",
-            "phoneNumber": "0661234567",
-            "petName": "1",
-            "petSex": "2",
-            "petType": "3",
-            "petBreed": "4",
-            "petBirthDate": "5",
-            "comment": "6",
-            "analyses": []
-        },
-        {
-            "FIO": "",
-            "phoneNumber": "0123456789 0971234567",
-            "petName": "",
-            "petSex": "",
-            "petType": "undefined",
-            "petBreed": "",
-            "petBirthDate": "",
-            "comment": "",
-            "analyses": []
-        },
-        {
-            "FIO": "",
-            "phoneNumber": "0123456789",
-            "petName": "",
-            "petSex": "",
-            "petBreed": "",
-            "petBirthDate": "",
-            "comment": "",
-            "analyses": []
         }
     ],
     "VisitList": [
         {
-            "dateStart": "2023-07-09T08:45:00.000Z",
-            "dateEnd": "2023-07-09T09:15:00.000Z",
+            "dateStart": "2023-07-09T11:00:00.000Z",
+            "dateEnd": "2023-07-09T11:30:00.000Z",
             "phoneNumber": "0500559015",
             "vid": "",
-            "anamnez": "",
+            "anamnez": "Оаоснсрао. Алгсос\nАгсоаола\nЛсгслалп\n\nСшососла\n\n\nШсослала\n\n\nШсгсгаоал",
             "appointment": "",
             "status": "",
-            "title": "Укол кот Буся 0500559015"
+            "title": "1 кот Буся 0500559015"
         },
         {
-            "dateStart": "2023-07-09T09:15:00.000Z",
-            "dateEnd": "2023-07-09T09:45:00.000Z",
-            "phoneNumber": "0500559015",
+            "dateStart": "2023-07-09T11:30:00.000Z",
+            "dateEnd": "2023-07-09T12:00:00.000Z",
+            "phoneNumber": "0664883209",
             "vid": "",
             "anamnez": "",
             "appointment": "",
             "status": "",
-            "title": "Причина кот Буся 0500559015"
+            "title": "132 кот Марго 0664883209"
         },
         {
-            "dateStart": "2023-07-09T12:00:00.000Z",
-            "dateEnd": "2023-07-09T12:30:00.000Z",
-            "phoneNumber": "0501234567",
+            "dateStart": "2023-07-19T15:00:00.000Z",
+            "dateEnd": "2023-07-19T15:30:00.000Z",
+            "phoneNumber": "0664883209",
             "vid": "",
             "anamnez": "",
             "appointment": "",
             "status": "",
-            "title": "укол кот Вася 0501234567"
-        },
-        {
-            "dateStart": "2023-07-09T13:00:00.000Z",
-            "dateEnd": "2023-07-09T14:00:00.000Z",
-            "phoneNumber": "0991234567",
-            "vid": "",
-            "anamnez": "",
-            "appointment": "",
-            "status": "",
-            "title": "укол собака герда 0991234567"
-        },
-        {
-            "dateStart": "2023-07-09T14:00:00.000Z",
-            "dateEnd": "2023-07-09T14:30:00.000Z",
-            "phoneNumber": "0500559015",
-            "vid": "",
-            "anamnez": "",
-            "appointment": "",
-            "status": "",
-            "title": "укол кот Буся 0500559015"
-        },
-        {
-            "dateStart": "2023-07-09T05:00:00.000Z",
-            "dateEnd": "2023-07-09T05:30:00.000Z",
-            "phoneNumber": "0661234567",
-            "vid": "",
-            "anamnez": "",
-            "appointment": "",
-            "status": "",
-            "title": "Укол 3 1 0661234567"
-        },
-        {
-            "dateStart": "2023-07-09T09:20:00.000Z",
-            "dateEnd": "2023-07-09T09:50:00.000Z",
-            "phoneNumber": "0500559015",
-            "vid": "прием",
-            "anamnez": "болеет укьопало укрблпруелдпрдлуеопр дкоер ждекор жд лерэизш5н жрщ о5ндщ",
-            "appointment": "ваыапукрее",
-            "status": "проведен",
-            "title": "укол кот Буся 0500559015"
-        },
-        {
-            "dateStart": "2023-07-10T07:00:00.000Z",
-            "dateEnd": "2023-07-10T08:00:00.000Z",
-            "phoneNumber": "0123456789",
-            "vid": "",
-            "anamnez": "",
-            "appointment": "",
-            "status": "",
-            "title": "0123456789 Вася"
+            "title": "спатоньки кот Марго 0664883209"
         }
     ]
 }

@@ -6,26 +6,27 @@
 </head>
 
 <body>
-  <div class="sidenav">
-    <a class="schedule selectedTab" onclick="selectTab(this)">Расписание</a>
-    <a class="clients" onclick="selectTab(this)">Клиенты</a>
-    <img src="styles/logo.png" width="200px" />
-    <img id="qrcode" src="" width="200px" />
+  <div class="sidenav" onmouseover="expandSidenav()" onmouseout="collapseSidenav()">
+    <a class="schedule selectedTab" onclick="selectTab(this)">📅 Расписание</a>
+    <a class="clients" onclick="selectTab(this)">👩‍⚕️ Клиенты</a>
+    <img src="styles/logo.png" width="200px" /><br>
+    <img id="qrcode" src="" width="200px" /><br>
     <label id="currentIP"></label>
   </div>
   <div class="main selectedMain" id="schedule">
-    <button onclick="changeDateInput('prev')">
-      <= </button>
+    <div class="calendarParent">
 
-        <input id="date" type="date" onchange="getEvents(new Date(this.value))" />
+      <input id="date" type="date" onchange="getEvents(new Date(this.value))" />
 
-        <button onclick="changeDateInput('next')">=></button>
 
-        <div id="schedule-chart"></div>
-
+      <div id="schedule-chart"></div>
+    </div>
+    <div class="calendarParent">
+      <div id="calendar"></div>
+    </div>
   </div>
   <div class="main unselectedMain" id="clients">
-    <div class="container">
+    <div class="calendarParent">
       <div class="client-search">
         <table>
           <tr>
@@ -56,15 +57,11 @@
           </tr>
           <br>
         </table>
-        <select id="foundClients" size="20" style="width: 100%;" onchange="loadClientProfile()">
-        </select>
-        <table>
-          <thead>
-            <td>
-            </td>
-            <td style="width:100%">
-            </td>
-          </thead>
+
+        <div id="clientDataForSearch">
+        </div>
+
+        <table style="width:100%">
           <tbody>
             <tr>
               <td>
@@ -77,6 +74,8 @@
           </tbody>
         </table>
       </div>
+    </div>
+    <div class="calendarParent">
       <div class="client-profile">
         <table>
           <thead>
@@ -158,21 +157,9 @@
             </label>
             </td>
             <td style="width:100%">
-              <textarea id="profileComment"></textarea>
+              <textarea class="infoArea" id="profileComment"></textarea>
             </td>
           </tr>
-          <!-- <tr>
-            <label>
-              <td>
-                Анализы:
-            </label>
-            </td>
-            <td style="width:100%">
-              <select id="profileAnalyses" size="20" style="width: 100%;"
-                ondblclick="openPopupAnalyse()">
-              </select>
-            </td>
-          </tr> -->
 
           <tr>
             <label>
@@ -181,8 +168,8 @@
             </label>
             </td>
             <td style="width:100%">
-              <select id="profileVisits" size="20" style="width: 100%;">
-              </select>
+              <div id="divParentVisitList">
+              </div>
             </td>
           </tr>
           <tr>
@@ -244,44 +231,60 @@
             Заголовок:
           </td>
           <td>
-            <textarea id="titleWatchVisit" >
+            <textarea class="infoArea" id="titleWatchVisit">
               </textarea>
-            </td>
+          </td>
         </tr>
         <tr>
           <td>
             Вид:
           </td>
           <td>
-            <textarea id="vidWatchVisit" >
+            <textarea class="infoArea" id="vidWatchVisit">
               </textarea>
-            </td>
+          </td>
         </tr>
         <tr>
           <td>
             Анамнез:
           </td>
           <td>
-            <textarea id="anamnezWatchVisit" >
+            <textarea class="infoArea" id="anamnezWatchVisit">
               </textarea>
-            </td>
+          </td>
         </tr>
         <tr>
           <td>
             Прием:
           </td>
           <td>
-            <textarea id="appointmentWatchVisit" >
+            <textarea class="infoArea" id="appointmentWatchVisit">
               </textarea>
-            </td>
+          </td>
         </tr>
         <tr>
           <td>
             Статус:
           </td>
           <td>
-            <textarea id="statusWatchVisit">
+            <textarea class="infoArea" id="statusWatchVisit">
               </textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Список файлов:
+          </td>
+          <td>
+            <textarea class="infoArea" id="filesWatchVisit">
+              </textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Загрузить файл</td>
+          <td>
+            <input type="file" name="file" id="fileInput">
+            <button id="sendFile">Загрузить</button>
           </td>
         </tr>
         <tr>

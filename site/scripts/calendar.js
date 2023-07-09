@@ -6,7 +6,7 @@ function getRandomInt(min, max) {
 }
 
 function randomColor() {
-    return `rgb(${getRandomInt(0, 100)},${getRandomInt(0, 100)},${getRandomInt(0, 100)})`
+    return `rgb(${getRandomInt(200, 255)},${getRandomInt(200, 255)},${getRandomInt(200, 255)})`
 }
 const scheduleChart = document.getElementById('schedule-chart');
 
@@ -38,6 +38,7 @@ function createScheduleChart(eventsData) {
         const height = calculateEventHeight(startHour, startMinute, endHour, endMinute);
         eventElement.style.top = topPosition + 'px';
         eventElement.style.height = height + 'px';
+        eventElement.style.color = "black";
         eventElement.style.backgroundColor = randomColor()
         eventsElement.appendChild(eventElement);
         eventElement.style.paddingLeft = "10px"
@@ -66,13 +67,15 @@ function calculateEventHeight(startHour, startMinute, endHour, endMinute) {
 
 let allEventsFromCalendar = []
 
-function getEvents(date) {
-    postData(`${window.location.href}cal`, { event: "get" })
+async function getEvents(date) {
+    await postData(`${window.location.href}cal`, { event: "get" })
         .then((data) => {
             allEventsFromCalendar = JSON.parse(data).VisitList
-            changeData(date)
+            // Создаем календарь при загрузке страницы
+            createCalendar(formatDate(date));
         });
 }
+
 getEvents(new Date())
 
 function formatDate(date) {
@@ -81,17 +84,18 @@ function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`
 }
+
 function formatedTime(date) {
     const hour = String(date.getHours()).padStart(2, '0');
     const minute = String(date.getMinutes()).padStart(2, '0');
     return `${hour}:${minute}`
 }
+
 function changeData(date) {
-    if (typeof date != Date)
-        date = document.getElementById("date").value
     let eventsInSelectedDay = allEventsFromCalendar.filter((elem) => {
         return formatDate(new Date(elem.dateStart)) == formatDate(new Date(date))
     })
+    console.log(date)
     let eventsData = []
     for (let a of eventsInSelectedDay) {
         eventsData.push({
@@ -105,17 +109,64 @@ function changeData(date) {
 }
 
 
-function changeDateInput(type) {
-    let i = 0;
-    if (type == "prev") {
-        i = -1;
-    } else {
-        i = 1;
+
+// 
+// Данные событий для календаря (пример)
+const events = {
+    "2023-07-01": ["укол кошка Буся 0500559015", "Событие 2"],
+    "2023-07-05": ["Событие 3"],
+    "2023-07-10": ["Событие 4", "Событие 5"],
+};
+
+// Функция для создания блока дня календаря
+function createCalendarDay(date) {
+    const dayElement = document.createElement("div");
+    dayElement.classList.add("calendar-day");
+    dayElement.textContent = date.toISOString().split("T")[0];
+    for (let ev of allEventsFromCalendar) {
+        const eventItems = document.createElement("div");
+        if (ev.dateStart.split("T")[0] == date.toISOString().split("T")[0]) {
+            const eventItem = document.createElement("span");
+            eventItem.innerText = ev.title;
+            eventItems.appendChild(eventItem);
+        }
+        eventItems.style = "border-top: 1px solid green;"
+        dayElement.appendChild(eventItems);
     }
 
-    let currentDate = new Date(document.getElementById("date").value);
-    let newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + i);
+    // Обработчик клика на день
+    dayElement.addEventListener("click", () => {
+        // Удаляем выделение со всех дней
+        const allDays = document.querySelectorAll(".calendar-day");
+        allDays.forEach((day) => {
+            day.classList.remove("selected-day");
+        });
+        loadEventsForSelectedDay(dayElement)
+        // Выделяем выбранный день
+        dayElement.classList.add("selected-day");
+    });
 
-    document.getElementById("date").value = formatDate(newDate);
-    getEvents(newDate);
+    return dayElement;
 }
+
+function loadEventsForSelectedDay(dayElement) {
+    console.log(dayElement.innerText.substring(0, 10))
+    changeData(new Date(dayElement.innerText.substring(0, 10)))
+}
+// Функция для создания календаря
+function createCalendar(selectedDate) {
+    const calendarElement = document.getElementById("calendar");
+    calendarElement.innerHTML = ""
+    selectedDate = new Date(selectedDate);
+    const selectedYear = selectedDate.getFullYear();
+    const selectedMonth = selectedDate.getMonth();
+
+    const firstDayOfMonth = new Date(selectedYear, selectedMonth, 2);
+    const lastDayOfMonth = new Date(selectedYear, selectedMonth + 1, 1);
+
+    for (let date = firstDayOfMonth; date <= lastDayOfMonth; date.setDate(date.getDate() + 1)) {
+        const dayElement = createCalendarDay(date);
+        calendarElement.appendChild(dayElement);
+    }
+}
+

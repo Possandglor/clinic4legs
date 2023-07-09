@@ -2,28 +2,42 @@
 var currentClientProfile = {}
 
 function searchClient() {
+    // onchange="loadClientProfile()"
     let FIO = document.getElementById("searchFIO").value == null ? "" : document.getElementById("searchFIO").value
     let phoneNumber = document.getElementById("searchPhoneNumber").value == null ? "" : document.getElementById("searchPhoneNumber").value
     let petName = document.getElementById("searchPetName").value == null ? "" : document.getElementById("searchPetName").value
-    let select = document.getElementById("foundClients")
-    select.innerHTML = ""
-    console.log(clientList)
+
+    let clientDataForSearch = document.getElementById("clientDataForSearch")
+    clientDataForSearch.innerHTML = ""
     for (let a of clientList) {
         if (a.FIO.toLowerCase().includes(FIO.toLowerCase())
             && a.phoneNumber.toLowerCase().includes(phoneNumber.toLowerCase())
             && a.petName.toLowerCase().includes(petName.toLowerCase())) {
-            let option = document.createElement("option")
-            option.value = a.FIO + "; " + a.phoneNumber + "; " + a.petName
-            option.innerText = a.FIO + "; " + a.phoneNumber + "; " + a.petName
-            select.appendChild(option)
+
+
+            let div = document.createElement("div")
+            // Обработчик клика на день
+            div.addEventListener("click", () => {
+                let allClients = document.querySelectorAll(".divClientList");
+                allClients.forEach((client) => {
+                    console.log(client)
+                    if (client.classList.contains("selectedClient"))
+                        console.log(client)
+                    client.classList.remove("selectedClient");
+                });
+                loadClientProfile(div.innerText)
+                // Выделяем выбранный день
+                div.classList.add("divClientList");
+                div.classList.add("selectedClient");
+            })
+            div.innerText = a.FIO + "; " + a.phoneNumber + "; " + a.petName
+            clientDataForSearch.appendChild(div)
         }
     }
 
 }
 
-function loadClientProfile() {
-    const selectElement = document.getElementById("foundClients");
-    const selectedOption = selectElement.value;
+function loadClientProfile(selectedOption) {
     for (let a of clientList) {
         if (a.FIO + "; " + a.phoneNumber + "; " + a.petName == selectedOption) {
             loadProfile(a)
@@ -46,7 +60,7 @@ async function loadProfile(client) {
     document.getElementById("profilePetBirthDate").value = currentClientProfile.petBirthDate
     document.getElementById("profileComment").value = currentClientProfile.comment
     // document.getElementById("profileAnalyses").innerHTML = ""
-    document.getElementById("profileVisits").innerHTML = ""
+    document.getElementById("divParentVisitList").innerHTML = ""
     // console.log(client.analyses)
     // for (let a of client.analyses) {
     //     let option = document.createElement("option")
@@ -57,11 +71,31 @@ async function loadProfile(client) {
 
 
     console.log(database)
+
+    let divParentVisitList = document.getElementById("divParentVisitList")
+    divParentVisitList.innerHTML = ""
     for (let a of database.VisitList) {
         if (currentClientProfile.phoneNumber == a.phoneNumber) {
-            let option = document.createElement("option")
-            option.innerText = formatDate(new Date(a.dateStart)) + " " + formatedTime(new Date(a.dateStart))
-            document.getElementById("profileVisits").appendChild(option)
+            let div = document.createElement("div")
+            // Обработчик клика на день
+            div.addEventListener("click", () => {
+                let allVisits = document.querySelectorAll(".divClientList");
+                allVisits.forEach((visit) => {
+                    console.log(visit)
+                    if (visit.classList.contains("selectedVisit"))
+                        visit.classList.remove("selectedVisit");
+                });
+                loadClientProfile(div.innerText)
+                // Выделяем выбранный день
+                div.classList.add("divClientList");
+                div.classList.add("selectedVisit");
+            })
+            div.addEventListener("dblclick", function (event) {
+                showSelectedVisit(div.innerText);
+            });
+
+            div.innerText = formatDate(new Date(a.dateStart)) + " " + formatedTime(new Date(a.dateStart))
+            divParentVisitList.appendChild(div)
         }
     }
 }

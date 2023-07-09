@@ -11,7 +11,7 @@ async function selectTab(a) {
     newMain.setAttribute("class", newMain.getAttribute("class").replace("unselectedMain", "selectedMain"))
     a.setAttribute("class", a.getAttribute("class").split(" ")[0] + " selectedTab")
 
-    getEvents(document.getElementById("date"))
+    await getEvents(new Date(document.getElementById("date").value))
     await getDataBase()
     searchClient()
     clearProfileData()
@@ -27,5 +27,5 @@ function clearProfileData(){
     document.getElementById("profilePetBreed").value = ""
     document.getElementById("profilePetBirthDate").value = ""
     document.getElementById("profileComment").value = ""
-    document.getElementById("profileVisits").innerHTML = ""
+    document.getElementById("divParentVisitList").innerHTML = ""
 }

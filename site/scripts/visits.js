@@ -79,9 +79,27 @@ async function createNewVisit() {
             console.log(data)
         });
 
-    let option = document.createElement("option")
-    option.innerText = formatDate(new Date(newVisit.dateStart)) + " " + formatedTime(new Date(newVisit.dateStart))
-    document.getElementById("profileVisits").appendChild(option)
+    let divParentVisitList = document.getElementById("divParentVisitList")
+    divParentVisitList.innerHTML = ""
+    let div = document.createElement("div")
+    // Обработчик клика на день
+    div.addEventListener("click", () => {
+        let allVisits = document.querySelectorAll(".divClientList");
+        allVisits.forEach((visit) => {
+            console.log(visit)
+            if (visit.classList.contains("selectedVisit"))
+                visit.classList.remove("selectedVisit");
+        });
+
+        // Выделяем выбранный день
+        div.classList.add("divClientList");
+        div.classList.add("selectedVisit");
+    })
+    div.addEventListener("dblclick", function (event) {
+        showSelectedVisit(div.innerText);
+    });
+    div.innerText = formatDate(new Date(newVisit.dateStart)) + " " + formatedTime(new Date(newVisit.dateStart))
+    divParentVisitList.appendChild(div)
 
     await getDataBase()
     closePopup(document.getElementById("newVisit"))
@@ -119,10 +137,19 @@ async function deleteVisit(data) {
 }
 
 async function showSelectedVisit(data) {
+
+
     console.log(currentClientProfile)
     console.log(data)
     currentVisit = (await searchVisit(data, currentClientProfile.phoneNumber))[0]
     console.log(currentVisit)
+    await postData(`${window.location.href}getFiles`, { phoneNumber: currentClientProfile.phoneNumber, date: formatDate(new Date(currentVisit.dateStart)) + "T" + formatedTime(new Date(currentVisit.dateStart)) })
+    .then((data) => {
+        data = JSON.parse(data)
+        console.log(data)
+        for (let key in data)
+            document.getElementById("filesWatchVisit").value += key+"\n"
+    })
     document.getElementById("titleWatchVisit").value = currentVisit.title
     document.getElementById("vidWatchVisit").value = currentVisit.vid
     document.getElementById("anamnezWatchVisit").value = currentVisit.anamnez

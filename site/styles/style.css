@@ -1,24 +1,9 @@
-/* Для мобильных устройств с шириной экрана до 480px */
-@media only screen and (max-width: 480px) {
-    /* Ваши стили для мобильных устройств */
-    /* Например, измените ширину элементов или перестройте блоки */
-}
-
-/* Для планшетов с шириной экрана от 481px до 768px */
-@media only screen and (min-width: 481px) and (max-width: 768px) {
-    /* Ваши стили для планшетов */
-}
-
-/* Для широкоэкранных устройств с шириной экрана более 768px */
-@media only screen and (min-width: 769px) {
-    /* Ваши стили для широкоэкранных устройств */
-}
-
 /* The sidebar menu */
 .sidenav {
+    white-space: nowrap;
     height: 100%;
     /* Full-height: remove this if you want "auto" height */
-    width: 200px;
+    width: 50px;
     /* Set the width of the sidebar */
     position: fixed;
     /* Fixed Sidebar (stay in place on scroll) */
@@ -32,6 +17,34 @@
     overflow-x: hidden;
     /* Disable horizontal scroll */
     padding-top: 20px;
+    transition: width 0.3s;
+}
+
+input {
+    min-width: 50%;
+}
+
+.sidenav.hidden {
+    height: 100%;
+    /* Full-height: remove this if you want "auto" height */
+    width: 75px;
+    /* Set the width of the sidebar */
+    position: fixed;
+    /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1;
+    /* Stay on top */
+    top: 0;
+    /* Stay at the top */
+    left: 0;
+    background-color: #269b60;
+    /* Black */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 20px;
+}
+
+.sidenav.expanded {
+    width: 200px;
 }
 
 /* The navigation menu links */
@@ -55,7 +68,8 @@
 
 /* Style page content */
 .main {
-    margin-left: 200px;
+    flex-direction: row;
+    margin-left: 50px;
     /* Same as the width of the sidebar */
     padding: 20px 10px;
 }
@@ -79,11 +93,6 @@
     }
 }
 
-
-#calendar {
-    width: 300px;
-    font-family: Arial, sans-serif;
-}
 
 .month {
     margin-bottom: 10px;
@@ -126,7 +135,7 @@
 
 #schedule-chart {
     background-color: #ccc;
-    width: 600px;
+    width: 100%;
     height: 532px;
     position: relative;
     border: 0px solid #ccc;
@@ -167,15 +176,11 @@
     color: #fff;
 }
 
-.container {
-    white-space: nowrap;
-    /* Предотвращает перенос на новую строку */
-}
 
 .client-search,
 .client-profile {
     display: inline-block;
-    width: 49%;
+    width: 99%;
     /* Делит ширину родительского контейнера пополам */
     vertical-align: top;
 }
@@ -208,7 +213,7 @@
     background-color: #fff;
     margin: 10% auto;
     padding: 20px;
-    width: 60%;
+    width: 80%;
     max-width: 600px;
 }
 
@@ -232,4 +237,125 @@
     color: #ccc;
     width: 100%;
     height: 35px;
+}
+
+
+/* calendar */
+.calendarParent {
+    box-sizing: border-box;
+    width: 48%;
+    padding: 10px;
+}
+
+#calendar {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.calendar-day {
+    /* flex-basis: calc(50% - 20px); */
+    display: inline-block;
+    width: calc(100% / 7);
+    width: calc(100% / 5);
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.selected-day {
+    border: 2px solid red;
+}
+
+/* end calendar */
+
+.main.selectedMain {
+    display: flex;
+}
+
+/* Для мобильных устройств с шириной экрана до 480px */
+@media only screen and (max-width: 480px) {
+
+    /* Ваши стили для мобильных устройств */
+    .calendarParent {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .main {
+        flex-direction: column;
+    }
+
+    .calendar-day {
+        display: inline-block;
+        width: calc(100%);
+        width: calc(100% / 3);
+        border: 1px solid #ccc;
+        size: 0cap;
+        margin: 5px;
+        padding: 5px;
+        cursor: pointer;
+    }
+
+}
+
+/* Для планшетов с шириной экрана от 481px до 768px */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+
+    /* Ваши стили для планшетов */
+    .calendarParent {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .main {
+        flex-direction: column;
+    }
+}
+
+/* Для широкоэкранных устройств с шириной экрана более 768px */
+@media only screen and (min-width: 769px) {
+    /* Ваши стили для широкоэкранных устройств */
+}
+
+.divClientList {
+    width: 100%;
+    border-bottom:1px solid #1f6341;
+}
+
+#clientDataForSearch {
+    height: 200px;
+    width: 100%;
+    overflow: auto;
+    border:1px solid #1f6341;
+}
+
+.selectedClient {
+    background-color:#17d1ff;
+}
+
+
+
+.divVisitList {
+    width: 100%;
+    border-bottom:1px solid #1f6341;
+}
+
+#divParentVisitList {
+    height: 200px;
+    width: 100%;
+    overflow: auto;
+    border:1px solid #1f6341;
+}
+
+.selectedVisit {
+    background-color:#17d1ff;
+}
+
+.infoArea {
+    min-height: 100px;
+    min-width: 60%;
+    max-width: 100%;
 }

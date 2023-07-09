@@ -1,15 +1,12 @@
 
 
-document.getElementById("profileVisits").addEventListener("dblclick", function (event) {
-    const selectedValue = event.target.value;
-    showSelectedVisit(selectedValue);
-});
+
 
 document.getElementById("deleteSelectedVisit").addEventListener("click", function (event) {
-    var selectElement = document.getElementById("profileVisits");
-    var selectedValue = selectElement.value;
+    var selectElement = document.getElementsByClassName("selectedVisit")[0];
+    var selectedValue = selectElement.innerText;
     deleteVisit(selectedValue);
-    
+
     // Перебор опций и удаление выбранной опции
     for (var i = 0; i < selectElement.options.length; i++) {
         if (selectElement.options[i].value === selectedValue) {
@@ -32,9 +29,34 @@ document.getElementById("btnSaveClient").addEventListener("click", function (eve
 });
 
 
-// document.getElementById("profileVisits").addEventListener("onclick", function(event) {
-//     const selectedValue = event.target.value;
-//     saveWatchVisit(selectedValue);
-//   });
+
+function expandSidenav() {
+    var sidenav = document.querySelector('.sidenav');
+    sidenav.classList.add('expanded');
+}
+
+function collapseSidenav() {
+    var sidenav = document.querySelector('.sidenav');
+    sidenav.classList.remove('expanded');
+}
 
 
+
+document.getElementById("sendFile").addEventListener('click', () => {
+    const file = document.getElementById("fileInput").files[0];
+
+    let date = document.getElementById("watchVisitDateStart").value + "T" + document.getElementById("watchVisitTimeStart").value
+    const formData = new FormData();
+    formData.append('file', file,currentClientProfile.phoneNumber+"_"+date+"_"+file.name);
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data); // Ответ сервера после загрузки файла
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+});
