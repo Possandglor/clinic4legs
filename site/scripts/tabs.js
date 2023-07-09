@@ -14,4 +14,18 @@ async function selectTab(a) {
     getEvents(document.getElementById("date"))
     await getDataBase()
     searchClient()
+    clearProfileData()
+}
+
+
+function clearProfileData(){
+    document.getElementById("profileFIO").value = ""
+    document.getElementById("profilePhoneNumber").value = ""
+    document.getElementById("profilePetName").value = ""
+    document.getElementById("profilePetSex").value = ""
+    document.getElementById("profilePetType").value = ""
+    document.getElementById("profilePetBreed").value = ""
+    document.getElementById("profilePetBirthDate").value = ""
+    document.getElementById("profileComment").value = ""
+    document.getElementById("profileVisits").innerHTML = ""
 }

@@ -45,6 +45,8 @@ app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '\\index.html'));
 });
+
+
 app.post("/cal", (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     let allEventsFromCal = readDatabase()
@@ -57,13 +59,7 @@ app.post("/calCreate", (req, res) => {
             res.send(data)
         });
 });
-app.post("/newVisit", (req, res) => {
-    res.send(JSON.stringify({ result: "ok" }))
-    console.log(req.body)
-    const database = readDatabase();
-    database.VisitList.push(req.body);
-    writeDatabase(database);
-})
+
 app.post("/getDataBase", (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(readDatabase()))
@@ -75,24 +71,38 @@ app.post("/getVisit", (req, res) => {
         visit.phoneNumber == req.body.phone && visit.dateStart == new Date(req.body.dateStart).toISOString()))
 });
 
+app.post("/newVisit", (req, res) => {
+    res.send(JSON.stringify({ result: "ok" }))
+    console.log(req.body)
+    const database = readDatabase();
+    database.VisitList.push(req.body);
+    writeDatabase(database);
+})
+
 app.post("/saveVisit", (req, res) => {
     const database = readDatabase();
-    for (visit of database.VisitList) {
-        if (visit.phoneNumber == req.body.old.phoneNumber && visit.dateStart == new Date(req.body.old.dateStart).toISOString() && visit.title == req.body.old.title) {
-            visit = req.body.new
-            break;
+
+    for (var i = 0; i < database.VisitList.length; i++) {
+        var visit = database.VisitList[i];
+        if (
+            visit.phoneNumber == req.body.old.phoneNumber &&
+            visit.dateStart == new Date(req.body.old.dateStart).toISOString() &&
+            visit.title == req.body.old.title
+        ) {
+          database.VisitList[i] = req.body.new;
+          break;
         }
-    }
+      }
     writeDatabase(database)
     postData(scriptUrl, { event: "change", old: req.body.old, new: req.body.new })
         .then((data) => {
-            res.send({ result: ok })
         });
+    res.send(JSON.stringify({ result: "ok" }))
 
 });
 
-
 app.post("/deleteVisit", (req, res) => {
+    res.send(JSON.stringify({ result: "ok" }))
     const database = readDatabase();
     // for (visit of database.VisitList) {
     //     if (visit.phoneNumber == req.body.phoneNumber && visit.dateStart == new Date(req.body.dateStart).toISOString() && visit.title == req.body.title) {
@@ -103,22 +113,68 @@ app.post("/deleteVisit", (req, res) => {
     for (let i = 0; i < database.VisitList.length; i++) {
         const visit = database.VisitList[i];
         if (
-          visit.phoneNumber == req.body.phoneNumber &&
-          visit.dateStart == new Date(req.body.dateStart).toISOString() &&
-          visit.title == req.body.title
+            visit.phoneNumber == req.body.phoneNumber &&
+            visit.dateStart == new Date(req.body.dateStart).toISOString() &&
+            visit.title == req.body.title
         ) {
-          database.VisitList.splice(i, 1); // Используем метод splice() для удаления элемента
-          break;
+            database.VisitList.splice(i, 1); // Используем метод splice() для удаления элемента
+            break;
         }
-      }
+    }
     writeDatabase(database)
     postData(scriptUrl, { event: "delete", dateStart: req.body.dateStart, title: req.body.title })
         .then((data) => {
-            
+
             res.send({ result: "ok" })
         });
 });
 
+
+
+app.post("/newClient", (req, res) => {
+    res.send(JSON.stringify({ result: "ok" }))
+    const database = readDatabase();
+    database.ClientList.push(req.body);
+    writeDatabase(database);
+})
+
+app.post("/deleteClient", (req, res) => {
+    res.send(JSON.stringify({ result: "ok" }))
+    const database = readDatabase();
+
+    for (let i = 0; i < database.ClientList.length; i++) {
+        const client = database.ClientList[i];
+        if (
+            client.FIO == req.body.FIO &&
+            client.phoneNumber == req.body.phoneNumber &&
+            client.petName == req.body.petName
+        ) {
+            database.ClientList.splice(i, 1); // Используем метод splice() для удаления элемента
+            break;
+        }
+    }
+
+    writeDatabase(database);
+})
+
+app.post("/saveClient", (req, res) => {
+    const database = readDatabase();
+    for (var i = 0; i < database.ClientList.length; i++) {
+        var client = database.ClientList[i];
+        if (
+          client.phoneNumber == req.body.old.phoneNumber &&
+          client.FIO == req.body.old.FIO &&
+          client.petName == req.body.old.petName
+        ) {
+          database.ClientList[i] = req.body.new;
+          console.log(req.body.new);
+          break;
+        }
+      }
+    console.log(database.ClientList)
+    writeDatabase(database)
+    res.send(JSON.stringify({ result: "ok" }))
+});
 
 // Запускаем сервер
 app.listen(3000, () => {
@@ -151,11 +207,11 @@ setInterval(() => {
 // Функция для обновления списка посещений из API
 function processVisitList(visitList) {
     const database = readDatabase();
-    for (visit of visitList) {
-        const phoneNumberMatch = visit.match(/\d{9,}/); // Ищем последовательность из 9 и более цифр (предполагаемый номер телефона)
+    for (client of visitList) {
+        const phoneNumberMatch = client.match(/\d{9,}/); // Ищем последовательность из 9 и более цифр (предполагаемый номер телефона)
         const phoneNumber = phoneNumberMatch ? phoneNumberMatch[0].slice(-10) : null;
         if (phoneNumber) {
-            const visitInfo = visit.split('|');
+            const visitInfo = client.split('|');
             const visitDateStartTime = new Date(visitInfo[1]);
             const visitDateEndTime = new Date(visitInfo[2]);
 

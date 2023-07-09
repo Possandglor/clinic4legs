@@ -1,4 +1,4 @@
-function visit(dateStart = "", dateEnd = "", phoneNumber = "", vid = "", anamnez = "", appointment = "", status = "", title = "") {
+function client(dateStart = "", dateEnd = "", phoneNumber = "", vid = "", anamnez = "", appointment = "", status = "", title = "") {
     return {
         dateStart: new Date(dateStart).toISOString(),
         dateEnd: new Date(dateEnd).toISOString(),
@@ -48,19 +48,20 @@ function addHalfHourToTime(time) {
 }
 
 
-function createNewVisit() {
+async function createNewVisit() {
     let dateStart = document.getElementById("newVisitDateStart").value + " " + document.getElementById("newVisitTimeStart").value
     let dateEnd = document.getElementById("newVisitDateEnd").value + " " + document.getElementById("newVisitTimeEnd").value
     let title = document.getElementById("reasonNewVisit").value + " "
-        + currentProfile.petType + " "
-        + currentProfile.petName + " "
-        + currentProfile.phoneNumber
+        + currentClientProfile.petType + " "
+        + currentClientProfile.petName + " "
+        + currentClientProfile.phoneNumber
 
-    const newVisit = visit(dateStart = dateStart, dateEnd = dateEnd, phoneNumber = currentProfile.phoneNumber, title = title)
+    const newVisit = client(dateStart, dateEnd, currentClientProfile.phoneNumber, "", "", "", "", title);
+
     // {
     //     dateStart: new Date(dateStart).toISOString(),
     //     dateEnd: new Date(dateEnd).toISOString(),
-    //     phoneNumber: currentProfile.phoneNumber,
+    //     phoneNumber: currentClientProfile.phoneNumber,
     //     vid: document.getElementById("reasonNewVisit").value,
     //     anamnez: "",
     //     appointment: "",
@@ -68,23 +69,30 @@ function createNewVisit() {
     //     title: title
     // };
 
-    postData(`${window.location.href}newVisit`, newVisit)
+    await postData(`${window.location.href}newVisit`, newVisit)
         .then((data) => {
             console.log(data)
         });
 
-    postData(`${window.location.href}calCreate`, { event: "create", title: title, datn: dateStart, datk: dateEnd })
+    await postData(`${window.location.href}calCreate`, { event: "create", title: title, datn: dateStart, datk: dateEnd })
         .then((data) => {
             console.log(data)
         });
+
+    let option = document.createElement("option")
+    option.innerText = formatDate(new Date(newVisit.dateStart)) + " " + formatedTime(new Date(newVisit.dateStart))
+    document.getElementById("profileVisits").appendChild(option)
+
+    await getDataBase()
+    closePopup(document.getElementById("newVisit"))
 }
 
 
 async function saveWatchVisit() {
-    let newVisit = visit(
+    let newVisit = client(
         dateStart = document.getElementById("watchVisitDateStart").value + " " + document.getElementById("watchVisitTimeStart").value,
         dateEnd = document.getElementById("watchVisitDateEnd").value + " " + document.getElementById("watchVisitTimeEnd").value,
-        phoneNumber = currentProfile.phoneNumber,
+        phoneNumber = currentClientProfile.phoneNumber,
         vid = document.getElementById("vidWatchVisit").value,
         anamnez = document.getElementById("anamnezWatchVisit").value,
         appointment = document.getElementById("appointmentWatchVisit").value,
@@ -94,23 +102,26 @@ async function saveWatchVisit() {
     await postData(`${window.location.href}saveVisit`, { old: currentVisit, new: newVisit }).then((data) => {
         console.log(data)
     })
+    await getDataBase()
 
+    closePopup(document.getElementById("watchVisit"))
 }
 
 
 
 async function deleteVisit(data) {
     console.log(data)
-    currentVisit = (await searchVisit(data, currentProfile.phoneNumber))[0]
+    currentVisit = (await searchVisit(data, currentClientProfile.phoneNumber))[0]
     await postData(`${window.location.href}deleteVisit`, currentVisit).then((data) => {
         console.log(data)
     })
+    await getDataBase()
 }
 
 async function showSelectedVisit(data) {
-    console.log(currentProfile)
+    console.log(currentClientProfile)
     console.log(data)
-    currentVisit = (await searchVisit(data, currentProfile.phoneNumber))[0]
+    currentVisit = (await searchVisit(data, currentClientProfile.phoneNumber))[0]
     console.log(currentVisit)
     document.getElementById("titleWatchVisit").value = currentVisit.title
     document.getElementById("vidWatchVisit").value = currentVisit.vid
@@ -126,9 +137,11 @@ async function showSelectedVisit(data) {
 
 async function searchVisit(data, phone) {
     let result = {}
-    await postData(`${window.location.href}getVisit`, { phone, dateStart:data }).then((data) => {
+    await postData(`${window.location.href}getVisit`, { phone, dateStart: data }).then((data) => {
         result = data
     })
     return JSON.parse(result)
 }
 
+document.getElementById("newVisitDateStart").value = formatDate(new Date())
+document.getElementById("newVisitDateEnd").value = formatDate(new Date())

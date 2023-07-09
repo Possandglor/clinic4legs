@@ -19,7 +19,17 @@ document.getElementById("deleteSelectedVisit").addEventListener("click", functio
     }
 });
 
+document.getElementById("btnNewClient").addEventListener("click", function (event) {
+    newClient()
+});
 
+document.getElementById("btnDeleteClient").addEventListener("click", function (event) {
+    deleteClient()
+});
+
+document.getElementById("btnSaveClient").addEventListener("click", function (event) {
+    saveClient()
+});
 
 
 // document.getElementById("profileVisits").addEventListener("onclick", function(event) {

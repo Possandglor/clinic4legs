@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">W
 </head>
 
 <body>
@@ -57,6 +58,24 @@
         </table>
         <select id="foundClients" size="20" style="width: 100%;" onchange="loadClientProfile()">
         </select>
+        <table>
+          <thead>
+            <td>
+            </td>
+            <td style="width:100%">
+            </td>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <button id="btnNewClient">Новый клиент</button>
+              </td>
+              <td>
+                <button id="btnDeleteClient">Удалить клиента</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="client-profile">
         <table>
@@ -162,7 +181,7 @@
             </label>
             </td>
             <td style="width:100%">
-              <select id="profileVisits" size="20" style="width: 100%;" >
+              <select id="profileVisits" size="20" style="width: 100%;">
               </select>
             </td>
           </tr>
@@ -176,6 +195,7 @@
           </tr>
           <br>
         </table>
+        <button id="btnSaveClient" class="saveButton">Сохранить информацию</button>
       </div>
     </div>
   </div>
@@ -224,39 +244,44 @@
             Заголовок:
           </td>
           <td>
-            <input id="titleWatchVisit" />
-          </td>
+            <textarea id="titleWatchVisit" >
+              </textarea>
+            </td>
         </tr>
         <tr>
           <td>
             Вид:
           </td>
           <td>
-            <input id="vidWatchVisit" />
-          </td>
+            <textarea id="vidWatchVisit" >
+              </textarea>
+            </td>
         </tr>
         <tr>
           <td>
             Анамнез:
           </td>
           <td>
-            <input id="anamnezWatchVisit" />
-          </td>
+            <textarea id="anamnezWatchVisit" >
+              </textarea>
+            </td>
         </tr>
         <tr>
           <td>
             Прием:
           </td>
           <td>
-            <input id="appointmentWatchVisit" />
-          </td>
+            <textarea id="appointmentWatchVisit" >
+              </textarea>
+            </td>
         </tr>
         <tr>
           <td>
             Статус:
           </td>
           <td>
-            <input id="statusWatchVisit" />
+            <textarea id="statusWatchVisit">
+              </textarea>
           </td>
         </tr>
         <tr>
@@ -288,6 +313,7 @@
   <script src="scripts/calendar.js"></script>
   <script src="scripts/visits.js"></script>
   <script src="scripts/buttonsActions.js"></script>
+  <script src="scripts/clietns.js"></script>
 </body>
 
 </html>
